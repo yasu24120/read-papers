@@ -1,73 +1,49 @@
 # Weakly Supervised Video Moment Retrieval From Text Queries
+https://arxiv.org/pdf/1904.03282.pdf
 
 ## 概要
 テキストからビデオシーン検索において、training時にfull supervisionが必要となる。  
 →とてもコストが高い。  
 そこで、weak labelsを用いた学習を行う。(i.e. ビデオの時間範囲でなく、スナップショット的なラベルを用いる)  
-Text-Guided Attention(TGA)を用いて、テキストの潜在空間と、ビデオの潜在空間をマッチさせる。  
-
+Text-Guided Attention(TGA)とjoing embeddingを用いて、テキストの潜在空間と、ビデオの潜在空間をマッチさせる。  
+  
+## Contributions
+・時間的境界に基づくアノテーションを必要としない、  
+　テキストクエリからのビデオ（シーン）検索手法の提案。  
+　(ビデオレベルのアノテーションを使用)  
+・joint visual-semantic embedding frameworkの提案。  
+　joint embedding networkはビデオの潜在空間とテキストの潜在空間の距離を最小にするように学習する。  
+　ビデオの潜在空間は、Text-Guided Attentionによって与えられる。  
+・DiDeMoとCharades-STAを用いて評価したところ、supervisedな手法よりもおおむねよかった。
+  
 ## 本文メモ
 ### 問題設定
-テキストから、ビデオの
-is it possible to develop　
-a weakly-supervised framework for video moment localiza-
-tion from the text, leveraging only video-level textual anno-
-tation, without their temporal boundaries?
-
-### 方法(概要)
-Given a video, we first extract frame-wise vi-
-sual features from pre-trained Convolutional Neural Net-
-work (CNN) architectures. We also extract features for
-text descriptions using Recurrent Neural Network (RNN)
-based models. Similar to several cross-modal video-text re-
-trieval models [5, 15], we train a joint embedding network
-to project video features and text features into the same joint
-space.
+ビデオと、時系列で対応してないテキストから、  
+ビデオのシーンを抽出できるか？  
   
-Given a certain text description, we obtain its similar-
-ity with the video features, which gives an indication of
-temporal locations which may correspond to the textual de-
-scription. We call this Text-Guided Attention as it helps
-to highlight the relevant temporal locations, given a text
-description. Thereafter, we use this attention to pool the
-video features along the temporal direction to obtain a sin-
-gle text-dependent feature vector for a video. We then train
-the network to minimize a loss which reduces the distance
-between the text-dependent video feature vector and the text
-vector itself.
-
-During the testing phase, we use TGA for localizing the moments,
-given a text query, as it highlights the portion of the video
-corresponding to the query.
-
-Contributions: The main contributions of the proposed
-approach are as follows.
-• We address a novel and practical problem of tempo-
-rally localizing video moments from text queries without
-requiring temporal boundary annotations of the text descrip-
-tions while training but using only the video-level text de-
-scriptions.
-• We propose a joint visual-semantic embedding frame-
-work, that learns the notion of relevant moments from video
-using only video-level description. Our joint embedding
-network utilizes latent alignment between video frames
-and sentence description as Text-Guided Attention for the
-videos to learn the embedding.
-• Experiments on two benchmark datasets: DiDeMo [9]
-and Charades-STA [8] show that our weakly-supervised ap-
-proach performs reasonably well compared to supervised
-baselines in the task of text to video moment retrieval.
-
+### 方法(概要)
+![figure02](https://user-images.githubusercontent.com/30098187/62625559-6c827a00-b960-11e9-9e7b-8a86806ea082.jpg)
+  
+ビデオを入力とする。  
+frame-wizeな特徴量をpre-trained CNNで抽出。  
+テキストの特徴量をRNNで抽出。  
+ふたつの特徴空間をjoint embedding（して、ひとつの特徴空間に落とし込む。）  
+  
+テキストが与えられたときに、対応する可能性のあるビデオの時間が抽出される。  
+→ Text Guided Attention  
+Attentionを用いて、テキストに対応するビデオのベクタ(text-dependent video feature)を取得する。  
+text-dependent video featureとtext vector間の距離を縮めるロスを定義し、学習させる。  
+  
+テストフェーズでは、テキストをクエリとして投げ、TGAを用いてクエリに対応するビデオの  
+一部分をハイライトする。
+  
 ### problem definition
-Problem Definition. In this paper, we consider that the
-training set consists of videos paired with text descriptions
-composed of multiple sentences. Each sentence describes
-different temporal regions of the video. However, we do
-not have access to the temporal boundaries of the moments
-referred to by the sentences. At test time, we use a sentence
-to retrieve relevant portions of the video.
-
+ビデオと、複数の説明文が対応付けられたデータセットを想定。  
+各説明文は、ビデオのワンシーンを説明しているが、ビデオの時間的位置は不明。  
+テスト時には、テキストからビデオの時間的位置を推定する。
+  
 ### ネットワーク構造
+
 Network Structure. The joint embedding model is
 trained using a two-branch deep neural network model, as
 shown in Fig. 2. The two branches consist of different ex-
