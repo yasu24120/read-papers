@@ -60,7 +60,7 @@ DiDeMo：1フレームごと、16 layer VGG modelを用いた。
 ★特徴量は、最終層のひとつ前のFC層から抽出。  
 FC層の次元は、両モデルとも4096。  
   
-### Text Guided Attention (TGA)D
+### Text Guided Attention (TGA)
 ![image](https://user-images.githubusercontent.com/30098187/62668148-ac2f7d00-b9c5-11e9-92b3-95c4681e9464.png)  
 D: training set  
 n<sub>d</sub> : number of training pairs  
@@ -85,15 +85,20 @@ nv<sub>i</sub> : i番目のビデオの、分割数(time instance)
 TGAのために、  
 1.ビデオ側のFC層にReLu + Dropout を適用。  
 　テキストと同じ特徴空間に落とし込む。 (¯v<sup>i</sup><sub>k</sub>)  
+  
 2.1.で定義された特徴空間と、テキストの特徴空間のコサイン類似度を計算。  
 ![image](https://user-images.githubusercontent.com/30098187/62672177-95445700-b9d4-11e9-9b6c-3a99eeaed414.png)  
 　j番目の文章とi番目のビデオのk番目のtemporal feature  
+  
 3.CNNからの特徴空間とテキストの特徴空間の類似度を計算し終えたら、softmaxを用いて、  
 　i番目のビデオのattention vectorを計算する。  
 ![image](https://user-images.githubusercontent.com/30098187/62674936-9333c580-b9df-11e9-9238-e42662b47f03.png)  
 　sentence vector w<sup>i</sup><sub>j</sub>に対応するtemporal locationsでは高い値を出力するはず。  
+  
 4.Attentionの結果を用いて、ビデオの最終的な特徴ベクトルを得る。  
 ![image](https://user-images.githubusercontent.com/30098187/62682895-2842b880-b9f8-11e9-86a5-22aff049b5d4.png)  
+
+![image](https://user-images.githubusercontent.com/30098187/62687480-d3a43b00-ba01-11e9-845f-f6f118e702b6.png)
 
 ### Joint embeddingの学習
 i: video number  
@@ -127,5 +132,44 @@ S(v<sub>p</sub>, t<sub>p</sub>) : joint spaceにおけるvideo embeddingとtext 
 　・同じビデオに対して、違うテキストを付与  
 ・v<sup>-</sup><sub>p</sub>, t<sup>-</sup><sub>p</sub>は、データバッチで正でないすべてのインスタンスに対応  
 
+### 実験
+#### データセットの概要
+・Charades-STA  
+　・text to video用データセット  
+　・16,128 sentence-moment pairs: 12,408 training / 3,720 testing  
+　・activity annotation と video-level paragraph description　が含まれている  
+・DiDeMo  
+　・Flickrからビデオが収集されている。max 30秒にトリミングされている。    
+　・アノテーションのため、5秒ごとに裁断されている。  
+　・8395 training / 1065 validation / 1004 testing  
+　・26892シーンに、複数のテキストがアノテーションされている。  
+　・camera movement, temporal transition indicators, activitiesが含まれている  
+　・各テキストは、single momentに対応するようにされている。  
+  
+#### Evaluation metric
+・R@K (Recall at K) を使用  
+　・クエリが投げられたときに、top-Kに正しい結果が得られる割合  
+　・R@1 / R@5 / R@10 を使用  
+・temporal intersection over union (tIoU) for Charades-STA  
+・mean intersection over union (mIoU) for DiDeMo  
 
+### Implemetation details
+・Telsa K80 GPUs  
+・PyTorch  
+・学習率 0.001  
+　・15 epoch分はfixする  
+　・15 epochごとに1/10倍する  
+・0.1 ≦ Δ ≦ 0.2  
+　・Charades-STA: 0.1  
+　・DiDeMo: 0.2
+・batch-size: 128  
+・ADAM optimizer for training joint embedding network  
 
+### 結果
+・Charades-STA  
+![image](https://user-images.githubusercontent.com/30098187/62689461-d012b300-ba05-11e9-8aae-36cc13377636.png)
+
+・DiDeMo  
+![image](https://user-images.githubusercontent.com/30098187/62689518-ecaeeb00-ba05-11e9-8b1c-e195a6ad4756.png)
+
+![image](https://user-images.githubusercontent.com/30098187/62689620-2253d400-ba06-11e9-84a0-9d1ead309347.png)
