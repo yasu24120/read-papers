@@ -2,9 +2,10 @@
 https://arxiv.org/pdf/1904.03282.pdf
 
 ## 概要
-テキストからビデオシーン検索において、training時にfull supervisionが必要となる。  
+テキストからビデオシーン検索において、training時にfull supervisionが必要となる。
+(i.e. ビデオシーンを分割して、アノテーションなど)  
 →とてもコストが高い。  
-そこで、weak labelsを用いた学習を行う。(i.e. ビデオの時間範囲でなく、スナップショット的なラベルを用いる)  
+そこで、weak labelsを用いた学習を行う。(i.e. ビデオ+ビデオの説明文複数。テキストはビデオシーンと紐づいていない)  
 Text-Guided Attention(TGA)とjoing embeddingを用いて、テキストの潜在空間と、ビデオの潜在空間をマッチさせる。  
   
 ## Contributions
@@ -43,186 +44,88 @@ text-dependent video featureとtext vector間の距離を縮めるロスを定�
 テスト時には、テキストからビデオの時間的位置を推定する。
   
 ### ネットワーク構造
+ネットワークは図2のように、ふたつのexpert networkからなる。  
+expert networkの最終層は、joint representationsのためにfully connected embedding layersに接続されている。  
+★論文では、pre-trained image encoderはfixして、学習しない。  
+★fully connected embedding layers, word embedding, GRUはend-to-endで学習される。  
+　joint embedding spaceの次元Dを1024とした。  
+  
+#### テキストの特徴抽出
+★GRUを使用。  
+★word embeddingの次元は、300とした。(i.e. 単語数→300次元)  
 
-Network Structure. The joint embedding model is
-trained using a two-branch deep neural network model, as
-shown in Fig. 2. The two branches consist of different ex-
-pert neural networks to extract modality-specific represen-
-tations from the given input. The expert networks are fol-
-lowed by fully connected embedding layers which focus on
-transforming the modality-specific representations to joint
-representations. In this work, we keep the pre-trained im-
-age encoder fixed as we have limited training data. The
-fully-connected embedding layers, the word embedding, the
-GRU are trained end-to-end. We set the dimensionality (D)
-of the joint embedding space to 1024.
+#### ビデオの特徴抽出
+Charades-STA：16フレームごと、C3D modelを用いた。
+DiDeMo：1フレームごと、16 layer VGG modelを用いた。  
+★特徴量は、最終層のひとつ前のFC層から抽出。  
+FC層の次元は、両モデルとも4096。  
+  
+### Text Guided Attention (TGA)D
+![image](https://user-images.githubusercontent.com/30098187/62668148-ac2f7d00-b9c5-11e9-92b3-95c4681e9464.png)  
+D: training set  
+n<sub>d</sub> : number of training pairs  
+w<sup>i</sup><sub>j</sub> : i<sup>th</sup> 番目のビデオの、 j<sup>th</sup>番目の説明文  
+v<sup>i</sup><sub>k</sub> : i番目のビデオの、k番目の時間(time instance)の特徴量  
+nw<sub>i</sub> : i番目のビデオの、文章の数  
+nv<sub>i</sub> : i番目のビデオの、分割数(time instance)  
+注: 文章の並び方は考慮しない  
 
-Text Representation. We use Gated Recurrent Units
-(GRU) [4] for encoding the sentences. GRU has been very
-popular for generating a representation for sentences in re-
-cent works [6, 15]. The word embeddings are input to the
-GRU. The dimensionality of the word embeddings is 300.
+・各文章は、ビデオのシーンにおいての情報を提供する。  
+・fully supervisedの場合：  
+　・ビデオのシーンとテキストが、時間的領域に基づいて紐づけられている  
+　　→ ビデオをpoolingして、テキストとjoint embedding  
+・weakly supervisedの場合：  
+　・テキストに対応する、時間的領域が不明  
+　　→ テキストクエリに関連するビデオのシーンの抽出が必要  
+  
+★ ビデオシーンと、テキストの特徴量のjoint embeddingではコサイン類似度を用いた。  
+★ 特定のビデオシーンと、対応するテキストの特徴量は特に似ているはず。  
+　→ Attentionを用いる。  
+  
+TGAのために、  
+1.ビデオ側のFC層にReLu + Dropout を適用。  
+　テキストと同じ特徴空間に落とし込む。 (¯v<sup>i</sup><sub>k</sub>)  
+2.1.で定義された特徴空間と、テキストの特徴空間のコサイン類似度を計算。  
+![image](https://user-images.githubusercontent.com/30098187/62672177-95445700-b9d4-11e9-9b6c-3a99eeaed414.png)  
+　j番目の文章とi番目のビデオのk番目のtemporal feature  
+3.CNNからの特徴空間とテキストの特徴空間の類似度を計算し終えたら、softmaxを用いて、  
+　i番目のビデオのattention vectorを計算する。  
+![image](https://user-images.githubusercontent.com/30098187/62674936-9333c580-b9df-11e9-9238-e42662b47f03.png)  
+　sentence vector w<sup>i</sup><sub>j</sub>に対応するtemporal locationsでは高い値を出力するはず。  
+4.Attentionの結果を用いて、ビデオの最終的な特徴ベクトルを得る。  
+![image](https://user-images.githubusercontent.com/30098187/62682895-2842b880-b9f8-11e9-86a5-22aff049b5d4.png)  
 
-Video Representation. We utilize pre-trained convolu-
-tional neural network models as the expert network for en-
-coding videos. Specifically, following [8] we utilize C3D
-model [33] for feature extraction from every 16 frames of
-video for the Charades-STA dataset. A 16 layer VGG model
-[30] is used for frame-level feature extraction in experi-
-ments on DiDeMo dataset following [9]. We extract fea-
-tures from the penultimate fully connected layer. For both
-the C3D and VGG16 model, the dimension of the represen-
-tation from the penultimate fully connected layer is 4096.
-
-### Text Guided Attention (TGA)
-we have a training
-set D = {{wi
-j}nwi
-j=1, {vi
-k}nvi
-k=1}nd
-i=1, where nd is the num-
-ber of training pairs, wi
-j represents the jth sentence feature
-of ith video, vi
-k represent the video feature at the kth time
-instant of the ith video, nwi and nvi are the number of sen-
-tences in the text description and video time instants for the
-ith video in the dataset. Please note that we do not consider
-any ordering in the text descriptions.
-
-Each of the sentences provides us information about a
-certain part of the given video. In a fully supervised setting,
-where we have access to the temporal boundaries associ-
-ated with each sentence, we can apply a pooling technique
-to first pool the relevant portion of the video features and
-then use a similarity measure to learn a joint video segment-
-text embedding. However, in our case of weakly supervised
-moment retrieval, we do not have access to the temporal
-boundaries associated with the sentences. Thus, we need to
-first obtain the portions of the video which are relevant to a
-given sentence query.
-
-If some portion of the video frames corresponds to a
-particular sentence, we would expect them to have simi-
-lar features. Thus, the cosine similarity between text and
-video features should be higher in the temporally relevant
-portions and low in the irrelevant ones. Moreover, as the
-sentence described a part of the video rather than individual
-temporal segments, the video feature obtained after pooling
-the relevant portions should be very similar to the sentence
-description feature. We employ this idea to learn the joint
-video-text embedding via an attention mechanism based on
-the sentence descriptions, which we name Text-Guided At-
-tention (TGA).
-
-We first apply a Fully Connected (FC) layer with ReLU
-[18] and Dropout [32] on the video features at each time in-
-stance to transform them into the same dimensional space as
-the text features. We denote these features as ¯vi
-k. In order to
-obtain the sentence specific attention over the temporal di-
-mension, we first obtain the cosine similarity between each
-temporal feature and sentence descriptions. The similarity
-between the jth sentence and the kth temporal feature of
-the ith training video can be represented as follows,
-si
-kj =
-wi
-j
-T
-vi
-k
-||wi
-j ||2||vi
-k||2
-(1)
-Once we obtain the similarity values for all the temporal
-locations, we apply a softmax operation along the temporal
-dimension to obtain an attention vector for the ith video as
-follows,
-ai
-kj =
-exp(si
-kj)
-Pnvi
-k=1 exp(si
-kj)
-These should have high values at temporal locations
-which are relevant to the given sentence vector wi
-j. We
-consider this as local similarity because the individual tem-
-poral features may correspond to different aspects of a sen-
-tence and thus each of the temporal features might be a bit
-scattered away from the sentence feature. However, the fea-
-ture obtained after pooling the video temporal features cor-
-responding to the relevant locations should be quite similar
-to the entire sentence feature. We consider this global sim-
-ilarity. We use the attention in Eqn. 2 to obtain the pooled
-video feature for the sentence description wi
-j as follows,
-fi
-j =
-nvi
-X
-k=1
-ai
-kjvi
-k (3)
-
-### 学習
-For the sake of notational simplicity, we drop the index
-i, j, k denoting the video number, sentence index and time
-instant. Given a text-specific video feature vector based on
-TGA, f (! RV ) and paired text feature vector w (! RT ),
-the projection for the video feature on the joint space can
-be derived as vp = W(v)f (vp ! RD). Similarly, the pro-
-jection of paired text vector in the embedding space can be
-expressed as tp = W(t)w(tp ! RD). Here,W(v) ! RD×V
-is the transformation matrix that projects the video content
-into the joint embedding and D is the dimensionality of
-the joint space. Similarly, W(t) ! RD×T maps input sen-
-tence/caption embedding to the joint space.
-
-Using these pairs of feature representation of both videos
-and corresponding sentence, the goal is to learn a joint em-
-bedding such that the positive pairs are closer than the neg-
-ative pairs in the feature space. Now, the video-text loss
-function LV T can be expressed as follows,
-LV T = X
-(vp,tp)
-nX
-t−
-p
-max⇥0,! − S(vp, tp) + S(vp, t−
-p )⇤
-+ X
-v−
-p
-max⇥0,! − S(tp, vp) + S(tp, v−
-p )⇤o
-where t−
-p is a non-matching text embedding for video em-
-bedding vp, and tp is the matching text embedding. This
-is similar for video embedding vp and non-matching im-
-age embedding v−
-p . ! is the margin value for the ranking
-loss. The scoring function S(vp, tp) measures the similar-
-ity between the image embedding and text embedding in the
-joint space. We utilize cosine similarity in the representa-
-tion space to compute similarity.
+### Joint embeddingの学習
+i: video number  
+j: sentence index  
+k: time instant  
+ビデオの特徴ベクタf (∈R<sup>V</sup>)とテキストの特徴ベクタw(∈R<sup>T</sup>)とすると、  
+fからjoint spaceへの射影は  
+v<sub>p</sub> = W<sup>(v)</sup>f (v<sub>p</sub> ∈ R<sup>D</sup>)  
+wからjoint spaceへの射影は  
+t<sub>p</sub> = W<sup>(t)</sup>w (t<sub>p</sub> ∈ R<sup>D</sup>) 　
+ここで、W<sup>(v)</sup>∈ R<sup>DxV</sup>とW<sup>DxT</sup>は、行列  
+  
+ロスL<sub>VT</sub>は以下の通り:  
+![image](https://user-images.githubusercontent.com/30098187/62685394-89b95600-b9fd-11e9-9c80-2609d887e2a8.png)  
+t<sup>−</sup><sub>p</sub> : ビデオのembedding v<sub>p</sub>にマッチしない、テキストembedding  
+t<sub>p</sub> :マッチするテキストembedding  
+v<sup>−</sup><sub>p</sub> : テキストのembedding t<sub>p</sub>にマッチしない、ビデオembedding  
+v<sub>p</sub> :マッチするビデオembedding  
+Δ : margin value for ranking loss
+S(v<sub>p</sub>, t<sub>p</sub>) : joint spaceにおけるvideo embeddingとtext embeddingの類似度を測るscoring function (cosine類似度が良く使われる)  
+イメージ  
+・第一項：ビデオに対して、マッチするテキストは、マッチしないテキストより近くしたい  
+・第二項：テキストに対して、マッチするビデオは、マッチしないビデオより近くしたい  
 
 ### Batch-wise training
-We train our network using Stochastic Gradient Descent
-(SGD) by dividing the dataset into batches. For a video
-with multiple sentences, we create multiple video-sentence
-pairs, with the same video, but different sentences in the
-corresponding video’s text description. During training, our
-method learns to automatically identify the relevant por-
-tions for each sentence using the Text-Guided Attention.
-The negative instances v−
-p and t−
-p correspond to all the in-
-stances which are not positive in the current batch of data.
+・SGDを使って学習した  
+・元データセット：  
+　・ビデオに対して、複数の説明文  
+・学習用データセット :  
+　・複数の、ビデオ-テキストのペアを作成  
+　・同じビデオに対して、違うテキストを付与  
+・v<sup>-</sup><sub>p</sub>, t<sup>-</sup><sub>p</sub>は、データバッチで正でないすべてのインスタンスに対応  
+
 
 
