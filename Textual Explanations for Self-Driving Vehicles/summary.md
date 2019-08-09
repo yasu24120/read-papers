@@ -19,9 +19,11 @@ same video segments
 ## Contributions  
 1.Introspective textual explanation modelの提案。  
 　自動運転車を対象とし、deep vehicle control networkの（解釈が容易な）説明文を出力する。  
+  
 2.Explanation generatorの実装。また、generator内の手法の比較。  
 　A.Attention-aligned explanations  
 　B.Non-aligned rationalizations  
+  
 3.Berkeley DeepDrive eXplanation (BDD-X) datasetの作成。  
 　6984ビデオに、説明文がアノテーションされている。  
 　e.g. “The car slows down”, “because it is about to merge with the busy highway”  
@@ -44,7 +46,7 @@ Explanation は以下に大別できる：
 ・Mediated perception based approach  
 　人間が定義した特徴(レーン、信号機、歩行者、車両など)に基づいて、自動運転を行う。  
   
-・End-to-end learning approach
+・End-to-end learning approach  
 　ニューラルネットワーク(behavioral cloning)を用いて自動運転を行う。  
 Behavioral cloning: 人間の運転から、driving policyを学ぶ。　（逆強化学習？***要サーベイ***）  
 [3]: dashcam imagesからsteering controlsへマッピングするNN  
