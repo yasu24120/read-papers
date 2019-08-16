@@ -98,6 +98,19 @@ CNNをエンコーダとして利用
 ・出力は3次元特徴量、wxhxt  
 
 ### Vehicle Controller  
+・dashcam images　から、加速度とレーンチェンジを推定  
+・Soft attentionを使用  
+
+![image](https://user-images.githubusercontent.com/30098187/63161114-447ad100-c05a-11e9-8343-68943b6a5516.png)
+y<sup>c</sup><sub>t</sub> : 特徴ベクタ  
+π<sup>c</sup> : mapping function  
+α<sup>c</sup><sub>t,i</sub> : attention weight (softmax)  
+  
+attention model f<sup>c</sup><sub>attn</sub>(X<sub>t</sub>, h<sup>c</sup><sub>t-1</sub>)  
+　・LSTMの隠れ層と、現在のベクタから算出される  
+　・FC層とsoftmaxを含む  
+
+
 
 
 ### Attention Alignments
