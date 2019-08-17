@@ -101,7 +101,7 @@ CNNをエンコーダとして利用
 ・dashcam images　から、加速度とレーンチェンジを推定  
 ・Soft attentionを使用  
 
-![image](https://user-images.githubusercontent.com/30098187/63161114-447ad100-c05a-11e9-8343-68943b6a5516.png)
+![image](https://user-images.githubusercontent.com/30098187/63161114-447ad100-c05a-11e9-8343-68943b6a5516.png)  
 y<sup>c</sup><sub>t</sub> : 特徴ベクタ  
 π<sup>c</sup> : mapping function  
 α<sup>c</sup><sub>t,i</sub> : attention weight (softmax)  
@@ -109,8 +109,85 @@ y<sup>c</sup><sub>t</sub> : 特徴ベクタ
 attention model f<sup>c</sup><sub>attn</sub>(X<sub>t</sub>, h<sup>c</sup><sub>t-1</sub>)  
 　・LSTMの隠れ層と、現在のベクタから算出される  
 　・FC層とsoftmaxを含む  
-
-
-
+  
+Vehicle controllerのアウトプット  
+　・加速度a^と<sub>t</sub>  
+　・レーンチェンジc^<sub>t</sub>  
+　・それぞれ、y<sup>c</sup><sub>t</sub>をFC層+ReLuに代入し、値を推定する(f<sub>a</sub> , f<sub>c</sub>)  
+  
+#### 目的関数
+![image](https://user-images.githubusercontent.com/30098187/63167968-ccb6a180-c06d-11e9-8c74-86e3f304bfb8.png)  
+H: attentionのエントロピー  
+λ<sub>c</sub>: ハイパーパラメータ  
 
 ### Attention Alignments
+内省的な説明文を生成するためのattentionが2種類ある  
+
+#### Strongly Aligned Attention (SAA)  
+・y<sup>c</sup><sub>t</sub> (特徴ベクトル)　から直にattentionする  
+・fig2の右上部分  
+
+#### Weakly Aligned Attention (WAA)
+・fig2の右下の部分  
+・f<sub>a</sub>, f<sub>c</sub>, X<sub>t</sub>　からattentionする  
+・KL-divergenceをlossとして扱う  
+![image](https://user-images.githubusercontent.com/30098187/63171487-a812f780-c076-11e9-959e-46872443c2c6.png)  
+α<sup>c</sup> : vehicle controllerのattention map  
+α<sup>j</sup> : explanation generatorのattention map  
+λ<sub>a</sub> : ハイパーパラメータ  
+
+### Textual explanation generator
+・データセットとして、descriptionとexplanationは一つの文章だが、<sep> tokenで分けられている  
+・WAAでは、t毎にattention map α<sup>j</sup> を生成する。  
+　・context vector y<sup>j</sup><sub>i</sub>に適用される。  
+・concatenate tuple (a^<sub>t</sub>, c^<sub>t</sub>) with  
+　・spatially-attended context vector y<sup>i</sup><sub>t</sub>　→　WAAで使用  
+  ・spatially-attended context vector y<sup>c</sup><sub>t</sub>　→　SAAで使用  
+　・concatenated vectorはLSTMに渡される  
+・explanation module は、seq2seqと同様  
+　・temporal attention　βを適用  
+　・βは、controller context vector (y<sup>c</sup><sub>t</sub>, SAA) か explanation vector (y<sup>j</sup><sub>t</sub>, WAA)　に適用  
+![image](https://user-images.githubusercontent.com/30098187/63206026-6327a900-c0e8-11e9-80cc-e50a8a16d08b.png)  
+Σ<sub>t</sub>β<sub>k,t</sub> = 1  
+β<sub>k,t</sub>はattention model f<sup>e</sup><sub>attn</sub>({y<sub>t</sub>}, h<sup>e</sup><sub>k-1</sub>)から算出  
+  
+#### overallな損失は以下の通り  
+![image](https://user-images.githubusercontent.com/30098187/63206062-de895a80-c0e8-11e9-8571-29274879ebcd.png)  
+  
+## Berkeley DeepDrive eXplanation Dataset (BDD-X)  
+BDDに説明文を追加したもの  
+![image](https://user-images.githubusercontent.com/30098187/63206103-4e97e080-c0e9-11e9-94da-26802fd5e029.png)  
+・driving instructerによるアノテーション（whatとwhy）  
+  
+## Results and Discussions  
+### Training and Evaluation Details
+・Convolutional feature encoder  
+　・5-layer  
+　・12 x 20 x 64 がlast layer  
+・Contoller  
+　・CNN の後ろに5-FC  
+　・隠れ層は 1164, 100, 50, 10  
+・Controllerを学習後、explanation generator (single layer LSTM)を学習  
+・Adam optimizer  
+・dropout (0.5) @ hidden state connections  
+・Xavier initialization  
+  
+・評価指標  
+　・vehicle controller : mean absolute error, distance correlation  
+　・justifier : BLEU, METEOR, CIDEr-D, human evaluation  
+  
+### Vehicle controller の結果
+![image](https://user-images.githubusercontent.com/30098187/63206648-a9ced080-c0f3-11e9-9588-b5984748d57d.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63206655-c408ae80-c0f3-11e9-9a5e-f18e071d723a.png)  
+
+エントロピー正則化とattention mapのわかりやすさはトレードオフになっている  
+  
+### Textual Explanations の結果  
+![image](https://user-images.githubusercontent.com/30098187/63206688-4a24f500-c0f4-11e9-8794-f7d551d90ae9.png)  
+
+![image](https://user-images.githubusercontent.com/30098187/63206709-9bcd7f80-c0f4-11e9-8649-e5944ada44e3.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63206718-b56ec700-c0f4-11e9-9c4e-51c367f8122f.png)  
+  
+λ<sub>a</sub>=10 , λ<sub>c</sub>=100　としておくのが一番良い気がする  
