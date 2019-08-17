@@ -4,17 +4,10 @@ http://openaccess.thecvf.com/content_ECCV_2018/papers/Jinkyu_Kim_Textual_Explana
 https://github.com/JinkyuKimUCB/explainable-deep-driving
 
 ## 概要 
-
-User acceptance is likely to benefit from easyto-interpret textual explanations which allow end-users to understand what triggered a particular behavior. Explanations may be triggered by the neural controller, namely introspective explanations, or informed by the neural controller’s
-output, namely rationalizations. We propose a new approach to introspective explanations which consists of two parts. First, we use a visual (spatial) attention
-model to train a convolutional network end-to-end from images to the vehicle
-control commands, i.e., acceleration and change of course. The controller’s attention identifies image regions that potentially influence the network’s output.
-Second, we use an attention-based video-to-text model to produce textual explanations of model actions. The attention maps of controller and explanation
-model are aligned so that explanations are grounded in the parts of the scene that
-mattered to the controller. We explore two approaches to attention alignment,
-strong- and weak-alignment. Finally, we explore a version of our model that
-generates rationalizations, and compare with introspective explanations on the
-same video segments
+Dashcam imagesから、加速度、車両の信仰角度の変化を推定。  
+また、車両の挙動の説明文とその理由を生成。  
+生成のために、attentionを２種類用いて生成する。  
+文章生成自体は、seq2seqのように、LSTMを使用。  
 
 ## Contributions  
 1.Introspective textual explanation modelの提案。  
