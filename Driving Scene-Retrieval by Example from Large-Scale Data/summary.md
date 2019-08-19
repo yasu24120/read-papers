@@ -33,7 +33,7 @@ x<sub>i</sub> : images
 a<sub>i</sub> : action vectors  
 
 #### Neighborhood Metric Learning
-[4]を参考にした 。要リンク  
+[4]を参考にした 。https://github.com/yasu24120/read-papers/blob/master/Improving%20Generalization%20via%20Scalable%20Neighborhood%20Component%20Analysis/summary.md  
 ・上記手法を、拡張子、BDD-Vに適用した  
   
 ・Resnet18 を使用  
