@@ -46,3 +46,15 @@ a<sub>i</sub> : action vectors
 ・action probability vecotorは、 go straight, stop or slow, turn left, turn right  
 ・action probability vecotorは、Resnet-backboneのsecond layer outputにconcatenate  
 　・vectorは、28x28に拡張される
+
+#### 結果  
+Single image の結果。  
+・time of the day, wearher などはうまくいっている。  
+・pedestrian crossings, angle to the streets, colors of head / taillights はうまくいっていない。  
+![image](https://user-images.githubusercontent.com/30098187/63306628-5db7a200-c326-11e9-9a02-e6206b5c9c77.png)  
+  
+Sequence of images 結果  
+・pedestrian crossings, angle to the streets, colors of head / taillights　もうまくいくようになった。  
+・何フレーム分投入したかは謎。  
+![image](https://user-images.githubusercontent.com/30098187/63306805-1c73c200-c327-11e9-824f-bf3fe286475d.png)  
+![image](https://user-images.githubusercontent.com/30098187/63306925-80968600-c327-11e9-8361-aba5e10ac8d1.png)  
