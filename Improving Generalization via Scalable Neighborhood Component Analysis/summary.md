@@ -45,7 +45,15 @@ https://github.com/Microsoft/snca.pytorch
 ・dataset n,  x<sub>1</sub>,x<sub>2</sub>,...,x<sub>n</sub>とラベルy<sub>1</sub>,y<sub>2</sub>,...,y<sub>n</sub>がある  
 ・x<sub>i</sub>はv<sub>i</sub> = f<sub>θ</sub>(x<sub>i</sub>) でembedされる  
 
+![image](https://user-images.githubusercontent.com/30098187/63350109-c428d880-c397-11e9-88b9-51851e615a9f.png)  
+
 s<sub>ij</sub> : cosine similarity  
 v<sub>i</sub>はl<sub>2</sub>normalizedされている  
 Φ : v<sub>i</sub>とv<sub>j</sub>のangle  
   
+x<sub>i</sub>がx<sub>j</sub>のneighborになる確率は  
+![image](https://user-images.githubusercontent.com/30098187/63350200-ee7a9600-c397-11e9-8ef9-d558a8a0a7e0.png)  
+σ : scaleを調整するパラメータ  
+
+Ω<sub>i</sub> = {j|y<sub>j</sub> = y<sub>i</sub>}をx<sub>i</sub>と同じラベルのtraining imagesとしたときに、x<sub>i</sub>が正しく分類される確率は、
+![image](https://user-images.githubusercontent.com/30098187/63350368-43b6a780-c398-11e9-940e-175f0aec3219.png)  
