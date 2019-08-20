@@ -57,3 +57,19 @@ x<sub>i</sub>がx<sub>j</sub>のneighborになる確率は
 
 Ω<sub>i</sub> = {j|y<sub>j</sub> = y<sub>i</sub>}をx<sub>i</sub>と同じラベルのtraining imagesとしたときに、x<sub>i</sub>が正しく分類される確率は、
 ![image](https://user-images.githubusercontent.com/30098187/63350368-43b6a780-c398-11e9-940e-175f0aec3219.png)  
+
+コスト関数は  
+![image](https://user-images.githubusercontent.com/30098187/63350749-f555d880-c398-11e9-969d-fa52e93f57d5.png)  
+
+勾配は、  
+![image](https://user-images.githubusercontent.com/30098187/63350810-128aa700-c399-11e9-8550-927cb784af41.png)  
+
+j≠iのときは  
+![image](https://user-images.githubusercontent.com/30098187/63350841-20402c80-c399-11e9-94f5-5dfb6c1b5f9e.png)  
+p^<sub>ik</sub> = p<sub>ik</sub>/Σ<sub>j∈Ω<sub>i</sub></sub>  
+p<sub>ij</sub> : 正解カテゴリを正規化した分布  
+
+##### Differences from parametric softmax  
+普通のparametric softmaxは以下  
+![image](https://user-images.githubusercontent.com/30098187/63351065-80cf6980-c399-11e9-9bcb-33532445dda4.png)  
+  
