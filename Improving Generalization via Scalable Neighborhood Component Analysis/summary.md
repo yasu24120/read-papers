@@ -82,5 +82,6 @@ NCAを学習すると、リソースが足りないため、以下の対策を�
 ![image](https://user-images.githubusercontent.com/30098187/63351563-706bbe80-c39a-11e9-8448-d003cfc79e0f.png)  
 
 ### Learning with Augmented Memory  
+embedding空間を確率的勾配降下法で学習する  
 
 
