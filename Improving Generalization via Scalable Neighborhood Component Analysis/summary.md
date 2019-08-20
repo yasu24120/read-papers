@@ -72,4 +72,15 @@ p<sub>ij</sub> : 正解カテゴリを正規化した分布
 ##### Differences from parametric softmax  
 普通のparametric softmaxは以下  
 ![image](https://user-images.githubusercontent.com/30098187/63351065-80cf6980-c399-11e9-9bcb-33532445dda4.png)  
-  
+各カテゴリc∈{1,2,...,C}はparametrized prototype　ω<sub>c</sub>をもつ。  
+non-parametricな手法では、単一のprototypeを仮定しないため、柔軟性が高い  
+
+##### Computational challenges for learning
+NCAを学習すると、リソースが足りないため、以下の対策を行った  
+1. Eqn5に対してのみ勾配降下法を適用した  
+2. Augmented memory をembeddingに適用した  
+![image](https://user-images.githubusercontent.com/30098187/63351563-706bbe80-c39a-11e9-8448-d003cfc79e0f.png)  
+
+### Learning with Augmented Memory  
+
+
