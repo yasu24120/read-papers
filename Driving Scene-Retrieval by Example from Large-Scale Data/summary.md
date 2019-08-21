@@ -27,8 +27,8 @@ BDD video-dataset
 　・1.8TB driving scenes  
 　・accelerations, angular velocities, GPS information  
 　　・Action vectorsに変換される[6]  
-  　　・http://zpascal.net/cvpr2017/Xu_End-To-End_Learning_of_CVPR_2017_paper.pdf  
-     ・pretrained model is here: https://github.com/gy20073/BDD_Driving_Model  
+　　　・http://zpascal.net/cvpr2017/Xu_End-To-End_Learning_of_CVPR_2017_paper.pdf  
+　　　・pretrained model is here: https://github.com/gy20073/BDD_Driving_Model  
 　・100Kの非連続なシーンは、weather, scene, timeof day でアノテーション  
 　　・subsetの10Kはimage segmentationsとobjectsが含まれている  
   　　・ただし、subsetのアノテーション情報は、学習時に使わない  
