@@ -117,7 +117,7 @@ t<sup>−</sup><sub>p</sub> : ビデオのembedding v<sub>p</sub>にマッチし
 t<sub>p</sub> :マッチするテキストembedding  
 v<sup>−</sup><sub>p</sub> : テキストのembedding t<sub>p</sub>にマッチしない、ビデオembedding  
 v<sub>p</sub> :マッチするビデオembedding  
-Δ : margin value for ranking loss
+Δ : margin value for ranking loss  
 S(v<sub>p</sub>, t<sub>p</sub>) : joint spaceにおけるvideo embeddingとtext embeddingの類似度を測るscoring function (cosine類似度が良く使われる)  
 イメージ  
 ・第一項：ビデオに対して、マッチするテキストは、マッチしないテキストより近くしたい  
