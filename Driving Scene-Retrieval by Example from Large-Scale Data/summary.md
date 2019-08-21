@@ -5,6 +5,12 @@ https://www1.icsi.berkeley.edu/~stellayu/publication/doc/2019driveCVPRWPoster.pd
 ## 概要  
 ラベル付けされていない類似シーンを、画像+action vectorをクエリとして投げることで検索する方法の提案。  
 手法自体は、参考文献[4]をBDD-Xに合わせるために適用した。  
+　・Resnetで特徴抽出(classificationを解かせる)  
+　・action vectorをconcatenate  
+　・memory bankを使用し、k-NNでの分類性能が一番良くなるようにembedding  
+
+![image](https://user-images.githubusercontent.com/30098187/63404989-37762d00-c420-11e9-81a9-ef635c8d0494.png)  
+
   
 ## Contributions
 
