@@ -1,5 +1,6 @@
 # Driving Scene-Retrieval by Example from Large-Scale Data
 http://openaccess.thecvf.com/content_CVPRW_2019/papers/Vision_Meets_Cognition_Camera_Ready/Hornauer_Driving_Scene_Retrieval_by_Example_from_Large-Scale_Data_CVPRW_2019_paper.pdf
+https://www1.icsi.berkeley.edu/~stellayu/publication/doc/2019driveCVPRWPoster.pdf  
   
 ## 概要  
 ラベル付けされていない類似シーンを、画像+action vectorをクエリとして投げることで検索する方法の提案。  
