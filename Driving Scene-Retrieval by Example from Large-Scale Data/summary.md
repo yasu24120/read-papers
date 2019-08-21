@@ -50,6 +50,7 @@ a<sub>i</sub> : action vectors
 ・instance-based learningをした(あるシーンから、IDを推定するようにした)  
 ・128 dimentional feature vector  
 ・non-parametctic Softmax classification [5]  
+ 　・http://openaccess.thecvf.com/content_cvpr_2018/CameraReady/0801.pdf  
   
 ・resnetに合わせるために、video size を 224x224に修正  
 ・top-Kで評価  
