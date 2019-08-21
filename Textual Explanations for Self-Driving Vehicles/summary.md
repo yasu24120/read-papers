@@ -1,7 +1,6 @@
 # Textual Explanations for Self-Driving Vehicles
-http://openaccess.thecvf.com/content_ECCV_2018/papers/Jinkyu_Kim_Textual_Explanations_for_ECCV_2018_paper.pdf
-(コード (tensorflow))
-https://github.com/JinkyuKimUCB/explainable-deep-driving
+http://openaccess.thecvf.com/content_ECCV_2018/papers/Jinkyu_Kim_Textual_Explanations_for_ECCV_2018_paper.pdf  
+(コード (tensorflow)) https://github.com/JinkyuKimUCB/explainable-deep-driving  
 
 ## 概要 
 Dashcam imagesから、加速度、車両の信仰角度の変化を推定。  
@@ -98,6 +97,8 @@ CNNをエンコーダとして利用
 y<sup>c</sup><sub>t</sub> : 特徴ベクタ  
 π<sup>c</sup> : mapping function  
 α<sup>c</sup><sub>t,i</sub> : attention weight (softmax)  
+i={1,2,...,l}  
+l : convolutional feature vectorの番号  
   
 attention model f<sup>c</sup><sub>attn</sub>(X<sub>t</sub>, h<sup>c</sup><sub>t-1</sub>)  
 　・LSTMの隠れ層と、現在のベクタから算出される  
@@ -106,7 +107,7 @@ attention model f<sup>c</sup><sub>attn</sub>(X<sub>t</sub>, h<sup>c</sup><sub>t-
 Vehicle controllerのアウトプット  
 　・加速度a^と<sub>t</sub>  
 　・レーンチェンジc^<sub>t</sub>  
-　・それぞれ、y<sup>c</sup><sub>t</sub>をFC層+ReLuに代入し、値を推定する(f<sub>a</sub> , f<sub>c</sub>)  
+　・それぞれ、y<sup>c</sup><sub>t</sub>とh<sup>c</sup><sub>t</sub>をFC層+ReLuに代入し、値を推定する(f<sub>a</sub> , f<sub>c</sub>)  
   
 #### 目的関数
 ![image](https://user-images.githubusercontent.com/30098187/63167968-ccb6a180-c06d-11e9-8c74-86e3f304bfb8.png)  
@@ -133,16 +134,20 @@ H: attentionのエントロピー
 ・データセットとして、descriptionとexplanationは一つの文章だが、<sep> tokenで分けられている  
 ・WAAでは、t毎にattention map α<sup>j</sup> を生成する。  
 　・context vector y<sup>j</sup><sub>i</sub>に適用される。  
-・concatenate tuple (a^<sub>t</sub>, c^<sub>t</sub>) with  
+　・y<sup>j</sup><sub>i</sub>は、CNNから出力されるcontext vector (多分、X<sub>t</sub>と一緒)  
+  
+・tuple (a^<sub>t</sub>, c^<sub>t</sub>) を、それぞれのcontext vectorにconcatenateして、generatorに渡す  
 　・spatially-attended context vector y<sup>i</sup><sub>t</sub>　→　WAAで使用  
   ・spatially-attended context vector y<sup>c</sup><sub>t</sub>　→　SAAで使用  
 　・concatenated vectorはLSTMに渡される  
+   
 ・explanation module は、seq2seqと同様  
 　・temporal attention　βを適用  
 　・βは、controller context vector (y<sup>c</sup><sub>t</sub>, SAA) か explanation vector (y<sup>j</sup><sub>t</sub>, WAA)　に適用  
 ![image](https://user-images.githubusercontent.com/30098187/63206026-6327a900-c0e8-11e9-80cc-e50a8a16d08b.png)  
 Σ<sub>t</sub>β<sub>k,t</sub> = 1  
 β<sub>k,t</sub>はattention model f<sup>e</sup><sub>attn</sub>({y<sub>t</sub>}, h<sup>e</sup><sub>k-1</sub>)から算出  
+  
   
 #### overallな損失は以下の通り  
 ![image](https://user-images.githubusercontent.com/30098187/63206062-de895a80-c0e8-11e9-8571-29274879ebcd.png)  
