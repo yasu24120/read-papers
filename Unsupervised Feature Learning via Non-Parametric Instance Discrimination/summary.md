@@ -14,3 +14,12 @@ https://github.com/zhirongw/lemniscate.pytorch
 ## Contributions  
 
 ## 本文メモ  
+
+### Approach
+ゴールは、教師なしでembedding function v = f<sub>θ</sub>(x)　を学習すること  
+f<sub>θ</sub> : パラメータθのニューラルネットワーク  
+x : image  
+v : feature  
+  
+このembeddingは画像空間上でのmetricを作成する  
+d
