@@ -22,8 +22,7 @@ BDD video-dataset
 　　・Action vectorsに変換される[6]  
 　・100Kの非連続なシーンは、weather, scene, timeof day でアノテーション  
 　　・subsetの10Kはimage segmentationsとobjectsが含まれている  
-  
-ただし、アノテーション情報は、学習時に使わない  
+  　　・ただし、subsetのアノテーション情報は、学習時に使わない  
 
 #### Driving Scene Definition  
 ・データセットを、40秒ごとに分割  
@@ -39,8 +38,8 @@ a<sub>i</sub> : action vectors
 ・上記手法を、拡張子、BDD-Vに適用した  
   
 ・Resnet18 を使用  
-・instance-based learningをした  
-・128 dunetuibak feature vector  
+・instance-based learningをした(あるシーンから、IDを推定するようにした)  
+・128 dimentional feature vector  
 ・non-parametctic Softmax classification [5]  
   
 ・resnetに合わせるために、video size を 224x224に修正  
