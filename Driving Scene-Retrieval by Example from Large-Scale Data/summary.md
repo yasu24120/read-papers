@@ -4,7 +4,7 @@ https://www1.icsi.berkeley.edu/~stellayu/publication/doc/2019driveCVPRWPoster.pd
   
 ## 概要  
 ラベル付けされていない類似シーンを、画像+action vectorをクエリとして投げることで検索する方法の提案。  
-手法自体は、参考文献[4]をBDD-Xに合わせるために適用した。  
+手法自体は、参考文献[4]をBDD-Vに合わせて適用した。  
 　・Resnetで特徴抽出(classificationをneighbourhood metric learningで解かせる)  
 　・action vectorをconcatenate  
 　・memory bankを使用  
@@ -26,7 +26,7 @@ https://www1.icsi.berkeley.edu/~stellayu/publication/doc/2019driveCVPRWPoster.pd
 BDD video-dataset  
 　・1.8TB driving scenes  
 　・accelerations, angular velocities, GPS information  
-　　・Action vectorsに変換される[6]  
+　　・上記データから、Action probability vectorsに変換[6]して、modelにいれられる  
 　　　・http://zpascal.net/cvpr2017/Xu_End-To-End_Learning_of_CVPR_2017_paper.pdf  
 　　　・pretrained model is here: https://github.com/gy20073/BDD_Driving_Model  
 　・100Kの非連続なシーンは、weather, scene, timeof day でアノテーション  
