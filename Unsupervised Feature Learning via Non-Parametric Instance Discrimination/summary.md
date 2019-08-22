@@ -179,5 +179,15 @@ Trainingのデータセットサイズと精度について検証した
 ![image](https://user-images.githubusercontent.com/30098187/63496855-965da400-c4fd-11e9-91c5-f1b4b6578dee.png)  
   
 ### Semi-supervised Learning
+Unlabelled で学習　→　Labelledでfinetuning  
+・top-5 accuracy  
+・Finetuning時 70epoch, initial learning rate 0.01, decay rate of 10 every 30 epochs  
+・labelled は1％〜20%  
+  
+![image](https://user-images.githubusercontent.com/30098187/63503066-be530480-c509-11e9-97f2-4f98dbb4f753.png)  
+  
+### Object detection
+PASCAL VOC 2007に転移学習した  
 
-
+![image](https://user-images.githubusercontent.com/30098187/63503336-3b7e7980-c50a-11e9-9c70-1e99ccf691eb.png)  
+  
