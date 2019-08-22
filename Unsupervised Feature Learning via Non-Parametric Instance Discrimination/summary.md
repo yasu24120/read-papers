@@ -100,10 +100,55 @@ P<sub>d</sub>からのpositive sample へのpositive loss functionは、
   
 最終的な目的関数は  
 ![image](https://user-images.githubusercontent.com/30098187/63489710-c7ce7380-c4ed-11e9-8157-976f81af7d1d.png)  
+λ : ハイパーパラメータ  
   
+効果は下図の通り  
 ![image](https://user-images.githubusercontent.com/30098187/63489745-db79da00-c4ed-11e9-8817-31dad8947ab7.png)  
   
 ### Weighted k-Nearest Neighbor Classifier
-
-
+test画像x^の分類時:  
+1. 特徴ベクトルを計算 f^ = f<sub>θ</sub>(x^)  
+2. memory bank内の全画像のembeddingと比較。 cosine類似度を使用 s<sub>i</sub> = cos(v<sub>i</sub>, f^)  
+3. top k nearest neighbors (Ν<sub>k</sub>) によるweighted votingで推論する  
   
+クラスcは以下のweightを得る:  
+w<sub>c</sub> = Σ<sub>i∈Ν<sub>k</sub></sub>α<sub>i</sub>・1 (c<sub>i</sub> = c)  
+α<sub>i</sub> = exp(s<sub>i</sub>/τ) : neighbor x<sub>i</sub> の contributing weight  
+  
+今回は、 τ=0.07、k=200とした  
+  
+## Experiments  
+4つの実験をした  
+1. CIFAR-10を用いてnon-parametric softmaxとparametric softmaxを比較  
+2. ImageNetに適用し、他のunsupervided learningと比較  
+3. semi-supervisedを試した  
+4. object detectionを試した  
+  
+### Parametric vs. Non-parametric Softmax  
+・バックボーンとして ResNet18を使用  
+・output featureは128次元  
+・embedding後、SVMとkNNで学習  
+  
+![image](https://user-images.githubusercontent.com/30098187/63493013-98236980-c4f5-11e9-9ba8-64710f994bea.png)  
+
+### Image classification  
+・githubのコードはこれ  
+  
+#### Experimental Settings
+・τ=0.07  
+・NCE, m=4096  
+・SGD, momentum, 200 epochで学習  
+・batch size = 256  
+・learning rate = 0.03, 40 epoch毎に0.1倍。120epochからは下げない  
+  
+#### Comparisons
+ふたつの手法で評価  
+(1) conv1〜conv5までの中間層に対して、Linear SVMを適用した結果に基づいてclassification  
+(2) output featureにkNNを適用してclassification  
+  
+![image](https://user-images.githubusercontent.com/30098187/63494115-0701c200-c4f8-11e9-81b0-b23c1c46e60a.png)  
+
+
+
+
+
