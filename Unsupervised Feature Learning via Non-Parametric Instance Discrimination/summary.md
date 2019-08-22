@@ -142,13 +142,42 @@ w<sub>c</sub> = Σ<sub>i∈Ν<sub>k</sub></sub>α<sub>i</sub>・1 (c<sub>i</sub>
 ・learning rate = 0.03, 40 epoch毎に0.1倍。120epochからは下げない  
   
 #### Comparisons
+ImageNetへの適用結果  
 ふたつの手法で評価  
 (1) conv1〜conv5までの中間層に対して、Linear SVMを適用した結果に基づいてclassification  
 (2) output featureにkNNを適用してclassification  
   
-![image](https://user-images.githubusercontent.com/30098187/63494115-0701c200-c4f8-11e9-81b0-b23c1c46e60a.png)  
+![image](https://user-images.githubusercontent.com/30098187/63496021-0c610b80-c4fc-11e9-8f7f-b0013971c5b9.png)  
+  
+・層が深くなるほど精度が向上している→良いembedding  
+・一番良い層の出力をメモリバンクに登録する　みたいなことをしようとした際に、本手法は128次元のため、必要な容量が少なくて済む  
+  
+#### Feature generalization
+ImageNetで学習したモデルを、finetuningなしでPlaces datasetに適用した  
+  
+![image](https://user-images.githubusercontent.com/30098187/63496097-374b5f80-c4fc-11e9-89ec-5646feb140d4.png)  
+  
+・ImageNetと同様の結果  
+  
+#### Consistency of training and testing objects
 
+![image](https://user-images.githubusercontent.com/30098187/63496255-84c7cc80-c4fc-11e9-8d5a-8fd06c1cebf1.png)  
 
-
+・overfittingせずに、学習が進んでいるように見受けられる  
+  
+#### The embedding feature size
+embeddingの次元と精度について検証  
+  
+![image](https://user-images.githubusercontent.com/30098187/63496473-f273f880-c4fc-11e9-8b53-063f810d1cc1.png)  
+  
+#### Training set size
+Trainingのデータセットサイズと精度について検証した  
+![image](https://user-images.githubusercontent.com/30098187/63496657-4383ec80-c4fd-11e9-8aab-5962fc4b7f83.png)  
+  
+#### Qualitative case study
+画像をクエリとして投入し、検索してみた  
+![image](https://user-images.githubusercontent.com/30098187/63496855-965da400-c4fd-11e9-91c5-f1b4b6578dee.png)  
+  
+### Semi-supervised Learning
 
 
