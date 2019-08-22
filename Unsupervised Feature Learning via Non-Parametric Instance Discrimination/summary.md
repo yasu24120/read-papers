@@ -48,3 +48,62 @@ L2-normalization layer を用いて、||v||=1とする
 i.e. ![image](https://user-images.githubusercontent.com/30098187/63479804-91333180-c4ca-11e9-82af-c089386dbe81.png) の最小化  
   
 #### Learning with A Memory bank  
+Eqn.2 の P(i│v) を計算するには、全画像の{v<sub>j</sub>}が必要。  
+↓  
+Memory bank V を導入  
+  
+V = {v<sub>j</sub>}: メモリバンク  
+f<sub>i</sub> = f<sub>θ</sub>(x<sub>i</sub>) : x<sub>i</sub>の特徴  
+・イテレーション毎に、SGDでf<sub>i</sub>とθが最適化される  
+・f<sub>i</sub> は V　の、関連するインスタンスにアップデートされる i.e. f<sub>i</sub> → v<sub>i</sub>  
+・V の初期値は、unit random vectors  
+  
+#### Discussions
+{w<sub>j</sub>} はfixed classに対応。non-parametric にすることにより、クラスに依存しない学習ができる  
+  
+### Noise-Contrastive Estimation  
+non-parametric softmaxを計算する際に、クラスnが大きいとコストがかかる → NCEを用いた  
+  
+basic idea : multiclass classification を複数のbinary classification に分割  
+　・data samples と noise samples を分類する  
+
+メモリバンク内の v　が i番目のexample に対応する確率は :  
+![image](https://user-images.githubusercontent.com/30098187/63486006-98fdd080-c4e0-11e9-886f-d7475ab27889.png)  
+Z<sub>i</sub> : normalizing constant  
+noise distributionは、一様分布とした i.e. P<sub>n</sub> = 1/n  
+  
+・noise sample が、data sample よりも m倍頻出すると仮定。  
+・feature v　を持つ sample iがdata ditribution (D=1)に属する確率は  
+![image](https://user-images.githubusercontent.com/30098187/63486528-e4b17980-c4e2-11e9-825a-fe2c24b387d9.png)  
+  
+この式の元での目的は、data とnoise samplesのnegative log-posterior distributionの最小化  
+![image](https://user-images.githubusercontent.com/30098187/63486955-6ce44e80-c4e4-11e9-9e3e-21a52099dcaa.png)  
+P<sub>d</sub> : 実際のdataの分布  
+P<sub>d</sub>にとって、vはx<sub>i</sub>に対応するfeature  
+P<sub>n</sub>にとって、v'は別の画像（noise distribution P<sub>n</sub>からランダムにサンプルされる）に対応するfeature  
+vとv'は、ランダムにnon-parametric memory bank V からサンプリングされる  
+  
+Z<sub>i</sub>をEq.4から求めることは困難　→　定数として扱い、モンテカルロ法で値を推定する  
+![image](https://user-images.githubusercontent.com/30098187/63487821-a5d1f280-c4e7-11e9-9379-9cc82c596717.png)  
+{j<sub>jk</sub>} : random subset のインデックス  
+
+### Proximal regulation
+この手法では、1クラスあたり1インスタンスしかない　→　学習時に、lossが振動する  
+↓  
+proximal regulationを導入  
+  
+・イテレーションtでは、 v<sup>(t)</sup><sub>i</sub> = f<sub>θ</sub>(x<sub>i</sub>) で特徴が計算される  
+・メモリバンク内は、前のイテレーションの情報が格納されている i.e. V = {v<sup>(t-1)</sup>}  
+P<sub>d</sub>からのpositive sample へのpositive loss functionは、  
+![image](https://user-images.githubusercontent.com/30098187/63488583-7670b500-c4ea-11e9-96d4-23813dd115a9.png)  
+学習が収束すると、v<sup>(t)</sup><sub>i</sub> - v<sup>(t-1)</sup><sub>i</sub>は消え去るはず  
+  
+最終的な目的関数は  
+![image](https://user-images.githubusercontent.com/30098187/63489710-c7ce7380-c4ed-11e9-8157-976f81af7d1d.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63489745-db79da00-c4ed-11e9-8817-31dad8947ab7.png)  
+  
+### Weighted k-Nearest Neighbor Classifier
+
+
+  
