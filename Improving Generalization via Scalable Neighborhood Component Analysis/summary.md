@@ -123,4 +123,33 @@ embedding空間を確率的勾配降下法で学習する
 Parametric softmax classification networkをbaselineとした  
   
 #### Network Configuration  
+・Resnetをバックボーンとした  
+・最終層をremoveして、新たに128次元の層を追加。  
+　・l2 normalizeされて、NCA learningに与えられる  
+
+#### Learning details
+・initial learning rate 0.1  
+　・40 epochごとに1/10  
+・130 epoch 学習させる  
+・momentum m は 最初は0.5, 徐々に0.9 に増加させた  
+・temperature patameter σ = 0.05  
+・testing 時には、kNNを用いた。k=1, k=30  
+  
+#### Main Results  
+・Parametric softmaxで学習した結果との比較  
+・Baseline networkとして、最終層からの特徴量をkNNで分類  
+・Cosine類似度も使った  
+  
+![image](https://user-images.githubusercontent.com/30098187/63583732-8a91e080-c5d6-11e9-8ca1-ad736caef9a9.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63583791-a72e1880-c5d6-11e9-997a-b47e09f7cfd8.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63584217-71d5fa80-c5d7-11e9-833b-75a4ef3cd75d.png)  
+  
+#### Ablation study on model parameters  
+・Feature sizeとtemperatureを変えて検証した  
+![image](https://user-images.githubusercontent.com/30098187/63583891-d3499980-c5d6-11e9-8759-b3445d3c4799.png)  
+  
+### Discovering Sub-Categories  
+
 
