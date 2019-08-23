@@ -120,4 +120,7 @@ embedding空間を確率的勾配降下法で学習する
 3. few-shot recognition  
   
 #### Image Clasification 
+Parametric softmax classification networkをbaselineとした  
+  
+#### Network Configuration  
 
