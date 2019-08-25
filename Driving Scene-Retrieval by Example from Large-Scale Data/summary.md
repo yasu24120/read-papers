@@ -35,8 +35,7 @@ BDD video-dataset
 
 #### Driving Scene Definition  
 ・データセットを、40秒ごとに分割  
-・6 sampled frames  
-・hop with 4-frame spacing in between cosecutive frames  
+・30fps　を、hop with 4-frame spacing in between cosecutive frames  
   
 最終的なドライビングシーンは、(x<sub>i</sub>, a<sub>i</sub>)  
 x<sub>i</sub> : images  
@@ -66,6 +65,6 @@ Single image の結果。
   
 Sequence of images 結果  
 ・pedestrian crossings, angle to the streets, colors of head / taillights　もうまくいくようになった。  
-・何フレーム分投入したかは謎。  
+・6フレーム分投入したかは謎。  
 ![image](https://user-images.githubusercontent.com/30098187/63306805-1c73c200-c327-11e9-824f-bf3fe286475d.png)  
 ![image](https://user-images.githubusercontent.com/30098187/63306925-80968600-c327-11e9-8361-aba5e10ac8d1.png)  
