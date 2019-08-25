@@ -151,5 +151,25 @@ Parametric softmax classification networkをbaselineとした
 ![image](https://user-images.githubusercontent.com/30098187/63583891-d3499980-c5d6-11e9-8759-b3445d3c4799.png)  
   
 ### Discovering Sub-Categories  
+・Cifar100, ImageNetの大カテゴリで学習したのち、kNNを用いて小カテゴリを推定  
+　　・正直Fig.3はよくわからん  
+![image](https://user-images.githubusercontent.com/30098187/63646764-ef724580-c752-11e9-9159-e9ae5b8788e6.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63646779-25172e80-c753-11e9-972a-b0cdddc68b32.png)  
+  
+### Few-shot Recognition  
+・Evaluation Protocol  
+　・mini-Imagenet dataseを使用(600,000 color images , 100 classes)  
+　・64, 16, 20 classesに分割  
+　・observations (c classesをs images per classを含む) と query (c classからのimage)のペアをランダムに生成  
+　・3000エピソードを実施  
+  
+・Network Architecture  
+　1. 84 x 84が入力 / 4 conv blocks ; 3x3x64 conv layer, batch norm, ReLu, max plooling / FC maps the feature for classification  
+　2. ResNet18, 224x224が入力  
 
-
+・結果  
+　・kNNを分類に使用。 one shot scenarioには k=1、 5-shot scenatioには k=5  
+![image](https://user-images.githubusercontent.com/30098187/63646863-4debf380-c754-11e9-97bc-5057c1673bc1.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/63646869-60fec380-c754-11e9-97bd-6a14721dea19.png)  
