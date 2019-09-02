@@ -38,6 +38,8 @@ main.py
   
 ・NNとkNNの実装  
   
+・
+  
 #### NCEAverage.py
 ・論文中のeqn.4 と　eqn.8の実装  
 　・添字が違うことに注意  
