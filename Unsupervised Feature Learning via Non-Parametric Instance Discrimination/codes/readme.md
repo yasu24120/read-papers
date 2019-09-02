@@ -7,6 +7,15 @@ https://github.com/zhirongw/lemniscate.pytorch
 　・longtensor, resize_ -> reshape  
 
 ### 各関数の説明  
+
+main.py  
+├─ test.py  
+├─ lib/NCEAverage.py  
+│ 　　　　　　└─ lib/Alias_multinomial.py    
+├─ lib/NCECriterion.py  
+├─ lib/utils.py  
+└─ models/__init__.py    
+ 　　　　　　└─ models/resnet.py
   
 #### main.py  
 ・imagenet用の学習ファイル  
