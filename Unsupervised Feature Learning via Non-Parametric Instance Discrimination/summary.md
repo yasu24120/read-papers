@@ -175,7 +175,8 @@ Trainingのデータセットサイズと精度について検証した
 ![image](https://user-images.githubusercontent.com/30098187/63496657-4383ec80-c4fd-11e9-8aab-5962fc4b7f83.png)  
   
 #### Qualitative case study
-画像をクエリとして投入し、検索してみた  
+・画像をクエリとして投入し、検索してみた  
+・cosine類似度を使用
 ![image](https://user-images.githubusercontent.com/30098187/63496855-965da400-c4fd-11e9-91c5-f1b4b6578dee.png)  
   
 ### Semi-supervised Learning
