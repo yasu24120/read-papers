@@ -6,7 +6,7 @@ import math
 
 class NCEFunction(Function):
     @staticmethod
-    def forward(self, x, y, memory, idx, params):  ### idx: [batch_size, K+1]    x:[batch,feature]
+    def forward(self, x, y, memory, idx, params):  ### idx: [batch_size, K+1]    x:[batch,feature]論文中fi
         K = int(params[0].item())    ### 論文のNCEにおけるm (number of negative samples)
         T = params[1].item()    ### 論文のNCEにおけるτ (temperature parameter)
         Z = params[2].item()    ### none 
@@ -36,7 +36,7 @@ class NCEFunction(Function):
 
         out.div_(Z).resize_(batchSize, K+1)
 
-        self.save_for_backward(x, memory, y, weight, out, params)
+        self.save_for_backward(x, memory, y, weight, out, params)   ### 値の保存(memory bank用)
 
         return out
 
@@ -61,12 +61,12 @@ class NCEFunction(Function):
         gradInput.resize_as_(x)
 
         # update the non-parametric data
-        weight_pos = weight.select(1, 0).resize_as_(x)
-        weight_pos.mul_(momentum)
-        weight_pos.add_(torch.mul(x.data, 1-momentum))
+        weight_pos = weight.select(1, 0).resize_as_(x)  ### v(t-1)をもってくる
+        weight_pos.mul_(momentum)  ### λv(t-1)
+        weight_pos.add_(torch.mul(x.data, 1-momentum)) ### λv(t-1) + (1-λ)v(t)
         w_norm = weight_pos.pow(2).sum(1, keepdim=True).pow(0.5)
         updated_weight = weight_pos.div(w_norm)
-        memory.index_copy_(0, y, updated_weight)
+        memory.index_copy_(0, y, updated_weight)  ### memory bankの更新
         
         return gradInput, None, None, None, None
 
