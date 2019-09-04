@@ -29,7 +29,7 @@ model_names = sorted(name for name in models.__dict__
     and callable(models.__dict__[name]))
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
-parser.add_argument('--data', metavar='DIR', default='/mnt/exthdd1/dataset/imagenet',
+parser.add_argument('--data', metavar='DIR', default='./datasets/data/imagenet',
                     help='path to dataset')
 parser.add_argument('--arch', '-a', metavar='ARCH', default='resnet18',
                     choices=model_names,
@@ -240,8 +240,8 @@ def train(train_loader, model, lemniscate, criterion, optimizer, epoch):
         batch_time.update(time.time() - end)
         end = time.time()
 
-
-    print('Epoch: [{0}][{1}/{2}]\t'
+        if i % args.print_freq == 0:
+            print('Epoch: [{0}][{1}/{2}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'.format(
@@ -283,6 +283,21 @@ def accuracy(output, target, topk=(1,)):
         res.append(correct_k.mul_(100.0 / batch_size))
     return res
 
+def concat_images(traindataset):
+        _targets = -1
+        ret_list = []
+        indexes = -1
+        
+        for batch_idx, (inputs, targets, _) in enumerate(train_dataset):
+            if targets != _targets:
+                if _targets != -1:
+                    ret_list.append([tensor, _targets, indexes])
+                _targets = targets
+                tensor = inputs
+                indexes += 1
+            else:
+                tensor = torch.cat((tensor, inputs), 0)
+        return ret_list
 
 if __name__ == '__main__':
     main()

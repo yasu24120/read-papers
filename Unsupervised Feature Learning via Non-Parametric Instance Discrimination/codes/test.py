@@ -29,7 +29,7 @@ def NN(epoch, net, lemniscate, trainloader, testloader, recompute_memory=0):
             targets = targets.cuda() #targets = targets.cuda(async=True)
             batchSize = inputs.size(0)
             features = net(inputs)
-            trainFeatures[:, batch_idx*batchSize:batch_idx*batchSize+batchSize] = features.data.t()
+            trainFeatures[:, batch_idx*batchSize:batch_idx*batchSize+batchSize] = features.data.t() ### trainFeatures (DB的なリスト)を取得
         trainLabels = torch.LongTensor(temploader.dataset.targets).cuda()
             #trainLabels = torch.LongTensor(temploader.dataset.train_labels).cuda()
         trainloader.dataset.transform = transform_bak
@@ -39,15 +39,15 @@ def NN(epoch, net, lemniscate, trainloader, testloader, recompute_memory=0):
         for batch_idx, (inputs, targets, indexes) in enumerate(testloader):
             targets = targets.cuda() #targets = targets.cuda(async=True)
             batchSize = inputs.size(0)
-            features = net(inputs)
+            features = net(inputs) ### inputsの特徴fiを抽出
             net_time.update(time.time() - end)
             end = time.time()
 
-            dist = torch.mm(features, trainFeatures)
+            dist = torch.mm(features, trainFeatures) ###fiとlemniscate内のweightのコサイン類似度を計算
 
-            yd, yi = dist.topk(1, dim=1, largest=True, sorted=True)
-            candidates = trainLabels.view(1,-1).expand(batchSize, -1)
-            retrieval = torch.gather(candidates, 1, yi)
+            yd, yi = dist.topk(1, dim=1, largest=True, sorted=True) ### top1のindex (yi) を持ってくる
+            candidates = trainLabels.view(1,-1).expand(batchSize, -1) ###ラベルのリストをもってくる
+            retrieval = torch.gather(candidates, 1, yi) ###リストの内、yiを取得する
 
             retrieval = retrieval.narrow(1, 0, 1).clone().view(-1)
             yd = yd.narrow(1, 0, 1)
@@ -58,7 +58,7 @@ def NN(epoch, net, lemniscate, trainloader, testloader, recompute_memory=0):
             cls_time.update(time.time() - end)
             end = time.time()
 
-        print('Test [{}/{}]\t'
+            print('Test [{}/{}]\t'
                   'Net Time {net_time.val:.3f} ({net_time.avg:.3f})\t'
                   'Cls Time {cls_time.val:.3f} ({cls_time.avg:.3f})\t'
                   'Top1: {:.2f}'.format(
@@ -107,7 +107,7 @@ def kNN(epoch, net, lemniscate, trainloader, testloader, K, sigma, recompute_mem
             net_time.update(time.time() - end)
             end = time.time()
 
-            dist = torch.mm(features, trainFeatures)
+            dist = torch.mm(features, trainFeatures)   
 
             yd, yi = dist.topk(K, dim=1, largest=True, sorted=True)
             candidates = trainLabels.view(1,-1).expand(batchSize, -1)
@@ -138,3 +138,68 @@ def kNN(epoch, net, lemniscate, trainloader, testloader, K, sigma, recompute_mem
 
     return top1/total
 
+### 検索用の関数。魔改造
+def retrieval(net, lemniscate, trainloader, retrievalloader, K, sigma, retrieval_dir,recompute_memory=0):
+    net.eval()
+    net_time = AverageMeter()
+    cls_time = AverageMeter()
+    total = 0
+    retrievalsize = retrievalloader.dataset.__len__()
+
+    trainFeatures = lemniscate.memory.t()
+    if hasattr(trainloader.dataset, 'imgs'):
+        trainLabels = torch.LongTensor([y for (p, y) in trainloader.dataset.imgs]).cuda()
+    else:
+        trainLabels = torch.LongTensor(trainloader.dataset.targets).cuda()
+            #trainLabels = torch.LongTensor(trainloader.dataset.train_labels).cuda()
+    C = trainLabels.max() + 1
+
+    ### memory bankの再計算。基本的に使わないようにしたい
+    if recompute_memory:
+        transform_bak = trainloader.dataset.transform
+        trainloader.dataset.transform = retrievalloader.dataset.transform
+        temploader = torch.utils.data.DataLoader(trainloader.dataset, batch_size=100, shuffle=False, num_workers=1)
+        for batch_idx, (inputs, targets, indexes) in enumerate(temploader):
+            targets = targets.cuda()
+            batchSize = inputs.size(0)
+            features = net(inputs)
+            trainFeatures[:, batch_idx*batchSize:batch_idx*batchSize+batchSize] = features.data.t()
+        trainLabels = torch.LongTensor(temploader.dataset.targets).cuda()
+            #trainLabels = torch.LongTensor(temploader.dataset.train_labels).cuda()
+        trainloader.dataset.transform = transform_bak
+        
+    retrieved_dir = os.path.join(os.path.dirname(retrieval_dir), 'retrieved')
+    if not os.path.isdir(retrieved_dir):
+        os.mkdir(retrieved_dir)
+        os.chmod(retrieved_dir, 0o777)
+    
+    end = time.time()
+    with torch.no_grad():
+        #retrieval_one_hot = torch.zeros(K, C).cuda()
+        for batch_idx, (inputs, targets, indexes) in enumerate(retrievalloader):
+            targets = targets.cuda()
+            batchSize = inputs.size(0)
+            features = net(inputs)
+
+            dist = torch.mm(features, trainFeatures)   
+
+            yd, yi = dist.topk(K, dim=1, largest=True, sorted=True)
+            
+            for x_ind in range(len(retrievalloader.dataset.imgs)):
+                ###print(retrievalloader.dataset.imgs[x_ind][0])
+                make_dir = os.path.basename(retrievalloader.dataset.imgs[x_ind][0])[:-5] ###.jpegを想定
+                make_dir = os.path.join(retrieved_dir, make_dir)
+                if os.path.isdir(make_dir):
+                    shutil.rmtree(make_dir)
+                os.mkdir(make_dir)
+                os.chmod(make_dir, 0o777)
+                for _k in range(K):
+                    retrieval_key = int(yi[x_ind][_k])
+                    ###print(trainloader.dataset.imgs[retrieval_key][0])
+                    cpy_img_path = trainloader.dataset.imgs[retrieval_key][0]
+                    cpy_img_name = os.path.basename(cpy_img_path)
+                    cpy_img_name = os.path.join(make_dir, cpy_img_name)
+                    shutil.copyfile(cpy_img_path, cpy_img_name)
+        net_time.update(time.time() - end)
+        print('elapsed time : {net_time.val:.3f}'.format(net_time=net_time) )
+        return
