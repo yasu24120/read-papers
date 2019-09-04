@@ -29,7 +29,14 @@ https://github.com/kenshohara/3D-ResNets-PyTorch
 - ImageNetにおける2D CNNの隆盛を、3D CNNでも同じことがいえるか？  
 - いろいろな3D CNNアーキテクチャを、いろいろなデータセットに対して適用した  
 
+#### Action Recognition Approaches
+2種類ある
+- 1.Two-stream CNN  
+  - https://papers.nips.cc/paper/5353-two-stream-convolutional-networks-for-action-recognition-in-videos.pdf  
+- 2.3D CNN  
+  - C3Dはデファクトスタンダード  
+    - 3x3x3 カーネルが性能が良いらしい  
+    - temporal lengthが長いと性能が上がるらしい  
 
-
-
- 
+2.  
+2.  
