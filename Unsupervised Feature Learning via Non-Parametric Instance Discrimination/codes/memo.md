@@ -2,9 +2,16 @@ cloned and modified following codes
 https://github.com/zhirongw/lemniscate.pytorch
 
 ### 変更点  
+#### 2019/08/26週
 ・argumentの追加 (含むdefault)  
 ・pytorchのバージョンに合わせるための処理の変更  
 　・longtensor, resize_ -> reshape  
+ 
+#### 2019/09/02週
+・検索用の関数(retrieval)をtest.pyに追加  
+　・入力:フォルダ、出力:フォルダ  
+・複数画像をひとつのtrain dataとする関数をmain.pyに追加
+・NCEAverageに説明文を追加  
 
 ### 各関数の説明  
 
