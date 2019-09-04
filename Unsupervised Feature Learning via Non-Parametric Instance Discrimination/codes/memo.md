@@ -15,7 +15,9 @@ https://github.com/zhirongw/lemniscate.pytorch
  出力(000003の例)  
  ![image](https://user-images.githubusercontent.com/30098187/64217043-a1013b80-cef6-11e9-8c75-02141156bd40.png)  
   
-・複数画像をひとつのtrain dataとする関数をmain.pyに追加
+・複数画像をひとつのtrain dataとする関数をmain.pyに追加:  
+　①(batch, ch, frame, h, w): 3D CNN用  
+　②(batch, ch*frame, h, w) : 2D CNN用  
 ・NCEAverageに説明文を追加  
 
 ### 各関数の説明  
