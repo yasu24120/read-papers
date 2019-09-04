@@ -14,3 +14,22 @@ https://github.com/kenshohara/3D-ResNets-PyTorch
 
 ## 本文メモ  
 
+### Introduction  
+以下のようなaction recognitionの動画データセットがあるらしい  
+- 10K程度のサイズ
+  - UCF-101  
+  - HMDB-51  
+- もう少し大きめのサイズ
+  - ActivityNet  
+  - Kinetics ←　デファクトスタンダード。300Kくらい。Imagenetの対として扱われるらしい  
+  
+精度が2D CNN > 3D CNNの理由は、3D CNNのパラメータを最適化しきるほどのデータ量がないと筆者らは言っている  
+  
+#### 問題設定  
+- ImageNetにおける2D CNNの隆盛を、3D CNNでも同じことがいえるか？  
+- いろいろな3D CNNアーキテクチャを、いろいろなデータセットに対して適用した  
+
+
+
+
+ 
