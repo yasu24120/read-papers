@@ -10,6 +10,10 @@ https://github.com/zhirongw/lemniscate.pytorch
 #### 2019/09/02週
 ・検索用の関数(retrieval)をtest.pyに追加  
 　・入力:フォルダ、出力:フォルダ  
+ 入力  
+ ![image](https://user-images.githubusercontent.com/30098187/64217024-816a1300-cef6-11e9-85a7-fe242cdb7219.png)  
+ 出力(000003の例)  
+ ![image](https://user-images.githubusercontent.com/30098187/64217043-a1013b80-cef6-11e9-8c75-02141156bd40.png)  
 ・複数画像をひとつのtrain dataとする関数をmain.pyに追加
 ・NCEAverageに説明文を追加  
 
