@@ -1,7 +1,7 @@
 cloned and modified following codes
 https://github.com/zhirongw/lemniscate.pytorch
 
-### 変更点  
+### 日記  
 #### 2019/08/26週
 ・argumentの追加 (含むdefault)  
 ・pytorchのバージョンに合わせるための処理の変更  
@@ -9,7 +9,7 @@ https://github.com/zhirongw/lemniscate.pytorch
  
 #### 2019/09/02週
 ・検索用の関数(retrieval)をtest.pyに追加  
-　・入力:フォルダ、出力:フォルダ  
+　・入力:フォルダ、出力:フォルダ、imagenetに適用  
  入力  
  ![image](https://user-images.githubusercontent.com/30098187/64217024-816a1300-cef6-11e9-85a7-fe242cdb7219.png)  
  出力(000003の例)  
@@ -18,7 +18,18 @@ https://github.com/zhirongw/lemniscate.pytorch
 ・複数画像をひとつのtrain dataとする関数をmain.pyに追加:  
 　①(batch, ch, frame, h, w): 3D CNN用  
 　②(batch, ch*frame, h, w) : 2D CNN用  
+ →　学習に使ってみたらくそ遅かったのでボツ。folder_customをさらに改造したほうが良い。  
+ 
 ・NCEAverageに説明文を追加  
+ 
+・FoTデータに対応(の味見)  
+- FoT_main.py  
+- FoT_test.py  
+- folder_custom.py  
+  - 画像3枚をResnetに入力　→　それぞれの特徴量を抽出(128dim)　→　3つをconcat (batch, 128x3dim)　→ NCEでLossを計算  
+  - 今のところ、1 iterに15～20秒程度: data loadと計算でそれぞれ割合は半分程度  
+  
+
 
 ### 各関数の説明  
 
