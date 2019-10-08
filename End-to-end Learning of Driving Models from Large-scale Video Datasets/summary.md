@@ -70,6 +70,7 @@ F(s, a)を、NLPにおけるN-gram language modelぽく解釈する
   
 ・perplexityを下記の通り定義する  
 ![image](https://user-images.githubusercontent.com/30098187/66363342-f2eb2480-e9c0-11e9-9437-5c4f3365ff2c.png)  
+・(低いほうが良い)  
 
 ・以下のようにしてもよい  
 　・a<sub>pred</sub> = argmax<sub>a</sub>F(s, a)　として、a<sub>real</sub>と比較  
@@ -97,3 +98,59 @@ F(s, a)を、NLPにおけるN-gram language modelぽく解釈する
  　・fc7に意味のある情報を学ばせる  
   
 ### Dataset
+・BDD video datasetの紹介  
+![image](https://user-images.githubusercontent.com/30098187/66367452-27fe7380-e9cf-11e9-86a3-6464a41aba01.png)  
+  
+### Experiments  
+・training data: 21,808  
+・validation data: 1,470  
+・test data : 3561  
+・40秒の動画を36秒に切り取り  
+・解像度: 640 x 360  
+・フレームレート: 3Hz (3fps)  
+  
+・SGDで学習  
+・学習率 10<sup>-4</sup>  
+　・lossが停滞したら1/2にする  
+・momentum: 0.99  
+・batch size : 2  
+・gradient clipping : 10  
+　・LSTMの勾配爆発を防ぐため  
+・LSTMの隠れ層は64  
+  
+#### Discrete Action Driving Model  
+・1/3秒後のstraight, stop, left turn, right turnを推定  
+・ネットワークの構造を変え、実験を実施  
+![image](https://user-images.githubusercontent.com/30098187/66368357-f5ef1080-e9d2-11e9-957c-8544bccdb8ca.png)  
+　・Random-Guess: ランダム  
+　・Speed-Only : スピードだけ用いて、推定  
+　・CNN-1-Frame : 1フレーム画像を入力して、推定  
+　・TCNN3/9 : 数字はwindowの大きさを表す。(3:1秒分、9:3秒分)  
+  
+・定性的な結果  
+![image](https://user-images.githubusercontent.com/30098187/66372396-d363f400-e9e0-11e9-94bf-793ca9a822d4.png)  
+  
+#### Continuous Action Driving Model
+・1/3秒後の進行角度を推定する  
+  
+![image](https://user-images.githubusercontent.com/30098187/66373219-1030ea80-e9e3-11e9-8dd4-575a5925b88c.png)  
+・Linear Bins: [-90°, 90°] into 180 bins of width 1°  
+・Log Bins: logspace(-90°, -1°)とlogspace(1°, 90°)  
+・Data-Driven Bins: 連続空間で、車両の角度を計算し、180binsに分割。各binは同じprobability densityを持つようにする  
+  
+#### Learning with Privileged Information (LUPI)  
+・Privileged Trainingでは、fc7に segmentation lossを追加で導入した  
+　・BDD segmentation maskを用いた  
+　・各video clipを10 BDD segmentation imagesとclipした  
+　　・BDDV はegomotionと画像でsegmentation情報をもっているため  
+　・Motion prediction loss (or driving loss)とsemantic segmentation loss は同じ重みとした  
+  
+・Mediated perception approach  
+　・各frameのsegmentation outputをMulti-Scale Context Aggregationを用いて計算  
+　・Segmentation resultをLSTMに投入  
+　・LSTMはsegmentationとは独立に学習させる  
+  
+・結果  
+![image](https://user-images.githubusercontent.com/30098187/66380267-0a8ed100-e9f2-11e9-9696-1703ac079233.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/66380498-8c7efa00-e9f2-11e9-9a69-a5eeab88813f.png)  
