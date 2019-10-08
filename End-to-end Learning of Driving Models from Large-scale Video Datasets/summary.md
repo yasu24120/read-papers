@@ -75,3 +75,25 @@ F(s, a)を、NLPにおけるN-gram language modelぽく解釈する
 　・a<sub>pred</sub> = argmax<sub>a</sub>F(s, a)　として、a<sub>real</sub>と比較  
  
 #### Discrete and Continuous Action Prediction
+・２種類の推定を行う  
+  
+・Discrete actions: 進行方向(4方向+stop)を推定する。cross entropy lossを最小化する  
+  
+・Continuous actions: 進行方向(1度刻み)を推定する。分類問題として解く。  
+　・回帰問題として解くのもあり  
+
+#### Driving with Privileged Information (privileged information: 特権情報)
+・Privileged learningで学習した  
+　・task loss と side loss を最小化する  
+　・本研究では、semantic segmentationを extra supervisionとして学習させた  
+　・アプローチの違いを説明する図は以下の通り:  
+
+![image](https://user-images.githubusercontent.com/30098187/66367031-7448b400-e9cd-11e9-8edc-530e851f1435.png)  
+　・Motion Reflex approach : fully end-to-end  
+　・Mediated perception approach : rely fully on predicted intermediate semantic segmentation labels  
+　・Privileged training approach : semantic segmentationをサイドタスク  
+   
+ ・本研究では、fc7の後ろにsegmentation lossを導入  
+ 　・fc7に意味のある情報を学ばせる  
+  
+### Dataset
