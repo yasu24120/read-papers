@@ -41,4 +41,37 @@ motion action set Aの例は以下の通り:
 egomotionを、未来の進行方向とすることもできる。その場合は  
 ![image](https://user-images.githubusercontent.com/30098187/66361544-1c548200-e9ba-11e9-9693-3e5ea531fce8.png)  
   
-ここで、v<sup>→</sup>は  
+ここで、v<sup>→</sup>は未来のegomotion  
+  
+F(s, a)を、NLPにおけるN-gram language modelぽく解釈する  
+  
+#### FCN-LSTM Architecture  
+・画像から得られる特徴量と、時系列な特徴量を反映させたいため、FCNとLSTMを組み合わせた  
+  
+##### Visual Encoder  
+・ImageNet pre-trained AlexNetを使用  
+・POOL2　と　POOL5 layer を削除  
+・conv3からfc7において、dilated convolutionを使用  
+  
+#### Temporal Fusion
+・本研究では、過去のground truth sensor information (speed, angular velocity) を画像からの特徴量とconcatenateした。  
+・各time stepにおいて、visual と sensor stateをLSTMを用いて、ひとつのstateとして表現した  
+・LSTMの代わりに、temporal convolutionを用いた場合も実施した  
+　・tcn: https://github.com/philipperemy/keras-tcn  
+  
+#### Driving Perplexity
+・Evaluation metric (perplexity) の提案  
+  
+・NLPを参考にする  
+・bigram modelは下記の確率を出力する  
+![image](https://user-images.githubusercontent.com/30098187/66363261-a6074e00-e9c0-11e9-991d-15e9040b9b98.png)  
+・一方で、本研究では下記の通り  
+![image](https://user-images.githubusercontent.com/30098187/66363296-c33c1c80-e9c0-11e9-971f-fbe0cf6cb9d1.png)  
+  
+・perplexityを下記の通り定義する  
+![image](https://user-images.githubusercontent.com/30098187/66363342-f2eb2480-e9c0-11e9-9437-5c4f3365ff2c.png)  
+
+・以下のようにしてもよい  
+　・a<sub>pred</sub> = argmax<sub>a</sub>F(s, a)　として、a<sub>real</sub>と比較  
+ 
+#### Discrete and Continuous Action Prediction
