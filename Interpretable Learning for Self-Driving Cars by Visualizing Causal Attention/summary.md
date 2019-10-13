@@ -39,8 +39,7 @@ https://arxiv.org/pdf/1703.10631.pdf
 　・steering angle commandは車両のステリングジオメトリと零点付近で不安点のため(?)    
   
 ・Inverse turning radius u<sub>t</sub>  と steering angle command θ<sub>t</sub>はアッカーマンステアリングジオメトリで以下の通りに近似できる:    
-   
-![image](https://user-images.githubusercontent.com/30098187/66717253-d6f8e000-ee11-11e9-9a6a-6600b4631f90.png)   
+![image](https://user-images.githubusercontent.com/30098187/66717725-3dccc800-ee17-11e9-87cf-9381cf554a54.png)  
 　・θ<sub>t</sub> : steering angle (degrees)   
 　・v<sub>t</sub> : velocity at time t (m/s)    
 　・K<sub>s</sub> : ステアリングとホイールの回転の比(ステアリング比?)   
@@ -56,6 +55,6 @@ https://arxiv.org/pdf/1703.10631.pdf
   
 ・single exponential smoothing methodを適用し、人間によるブレとノイズを低減   
 ・smoothing factor 0 ≦ α<sub>s</sub> ≦ 1 としたときに、simple smoothig exponential は下記の通り定義できる:   
-![image](https://user-images.githubusercontent.com/30098187/66717629-ff82d900-ee15-11e9-97eb-58b29e8388ae.png)   
+![image](https://user-images.githubusercontent.com/30098187/66717738-56d57900-ee17-11e9-9a2e-418ccde28bf0.png)  
 　・θ<sup>^</sup><sub>t</sub>、 v<sup>^</sup><sub>t</sub>はそれぞれθ<sub>t</sub>とv<sub>t</sub>をスムージングしたものを示す   
 　・α<sub>s</sub>=1の時、スムージングなしと同じで、α <sub>s</sub>が0に近づくほど、強くスムージングされる。   
