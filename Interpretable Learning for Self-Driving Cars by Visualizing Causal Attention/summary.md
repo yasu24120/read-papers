@@ -63,7 +63,7 @@ https://arxiv.org/pdf/1703.10631.pdf
 ・Fig.1を参照  
 ・CNNを用いてconvolutional feature cube x<sub>t</sub> を抽出  
 　・5 layered CNNを用いた。　モデルは先行研究(Bojarski [3])より。  
-　・Max-poolingをomit (Lee[17]らが論売るように。)  　
+　・Max-poolingをomit (Lee[17]ら)  
 　・3個の特徴量をCNNより抽出し、LSTMへの入力とした  
   
 ・Convolutional feature cubeは WxHxDがt毎に作られる  
