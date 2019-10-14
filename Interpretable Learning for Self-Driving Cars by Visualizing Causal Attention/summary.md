@@ -111,3 +111,82 @@ https://arxiv.org/pdf/1703.10631.pdf
 ![image](https://user-images.githubusercontent.com/30098187/66730865-2df0ca80-ee8f-11e9-9f71-a6a3e0c9613e.png)  
 　・T: Length of time step  
 　・λ: penalty coefficient  
+
+#### 3.4 Fine-Grained Decoder : Causality Test  
+・Attentionのマッピングをrefineする  
+  
+・attention weights {α<sub>t,i</sub>}  
+・input raw images {I<sub>t</sub>}  
+・map of attention M<sub>t</sub> = f<sub>map</sub>({α<sub>t,i</sub>})  
+・本研究では、5x5 と 3x3 CNNをpoolingなし  
+　・80x160が 10x 20x64、アスペクト比変更なし  
+・なので、f<sub>map</sub>({α<sub>t,i</sub>})を8倍のupsampling functionとして使う  
+・ガウシアンフィルタリングがそれに続く  
+
+・Local visual saliency抽出のため、以下を行う  
+　・attention mapで調整されたinput raw image上で、2D N particles をランダムに抽出し、置換する(?)  
+　　・spatio-temporal 3D paticles P←P∪{P<sub>t</sub>, t}を保存する  
+　・クラスタリングを行う  
+　　・DBSCANを用いた  
+　　・grouping 3D particles P into clusters {C}  
+　　・各クラスタcのテント、time frame tごとに、convex hull H(c)を計算する  
+　　　・local regionを探すため  
+　・各 c と t において、精度の低下度合いを検証する  
+　　・H(c)で計算された領域を、0でマスキングすることで検証(?)  
+  
+![image](https://user-images.githubusercontent.com/30098187/66732886-9f814680-ee98-11e9-885f-646d7fb95bd4.png)  
+  
+### 4. Resulet and Discussion
+#### 4.1 Datasets
+・以下のデータセットを用いた  
+　・Comma.ai  
+　・Udacity  
+　・Hyundai Center of Excellence in Integrated Vehicle Safety Systems and Control (HCE)  
+  
+・下記を含む  
+　・front video data  
+　・車速、加速度、ステアリング角度、GPS、角速度（ジャイロ）  
+　・高速道路がメイン  
+![image](https://user-images.githubusercontent.com/30098187/66733024-1cacbb80-ee99-11e9-8b81-ea5c14de3c73.png)  
+  
+#### 4.2 Training and Evaluation Details  
+・x<sub>t</sub>の学習のために、5 layer CNNを学習  
+　・5 layer fully connected layersを足している (hid_dimは1164, 100, 50, 10)  
+　・u<sub>t</sub>を推定する  
+・10x20x64の特徴量を抽出した後に、200x64にflattenされる  
+　・これはcoarse-grained decoderに入力される  
+  
+・LSTMは、1～5層で実験したが、劇的な精度向上は得られなかった  
+　・よって、1層にした  
+・Adam optimizerを使用  
+・0.5dropout　をhidden state  
+・Xavier initialization  
+・batch size 128  
+・フレームTは20  
+  
+・データオーギュメンテーションはなし  
+　・難しいらしい  
+
+#### 4.3 Effect of Choosing Penalty Coefficient λ  
+・λ∈{0, 10, 20}で実験した  
+![image](https://user-images.githubusercontent.com/30098187/66738794-43272280-eeaa-11e9-9513-d4c7658179b1.png)  
+
+・λを大きくすると、より広い範囲でattentionしていることがvisualizeできる  
+  
+#### 4.4 Effect of Varying Smoothing Factors
+・ステリング角度と車速のスムージング  
+　・αの値を変えて、精度がどう変わるかを検証  
+![image](https://user-images.githubusercontent.com/30098187/66739022-c8aad280-eeaa-11e9-88dd-29434e7a8098.png)  
+  
+#### 4.5 Quantitative Analysis  
+・FCNでも検証した  
+![image](https://user-images.githubusercontent.com/30098187/66739144-07d92380-eeab-11e9-83ff-03c8a0d76794.png)  
+  
+・Attentionによって、大きな精度の低下はなかった  
+  
+#### 4.6 Effect of Causal Visual Saliences
+
+・もやもやがどれくらいシンプルにできたのかを検証した  
+
+![image](https://user-images.githubusercontent.com/30098187/66739382-83d36b80-eeab-11e9-8314-7bfe677c2f33.png)  
+
