@@ -56,3 +56,47 @@ http://mprg.jp/data/MPRG/C_group/C20190611_mori.pdf
 ![image](https://user-images.githubusercontent.com/30098187/66758818-06731f80-eeda-11e9-9ec9-a8b3564a8a1e.png)  
 
 ### IV. Experiments
+### IV. Experiments  
+・Grand Theft Auto V上でシミュレータを作成した  
+
+![image](https://user-images.githubusercontent.com/30098187/67156868-2afa4c00-f35f-11e9-8e77-25114a25b5a8.png)  
+　・画像は420 x 350  
+　・RGB  
+　・3時間分  
+　・学習３万フレーム、検証16556フレーム  
+  
+・RMS Prop + Gravesで学習  
+・LR 0.01  
+・decay 0.99  
+・batch size 4  
+・150 epochs  
+  
+#### A. Evaluations on control performance  
+・autonomy score を用いて評価  
+
+![image](https://user-images.githubusercontent.com/30098187/67156917-a5c36700-f35f-11e9-970e-117982d5d5cd.png)  
+　・どれぐらい、運転に人間が介入したか？  
+  
+・結果は以下の通り:  
+![image](https://user-images.githubusercontent.com/30098187/67156992-aad4e600-f360-11e9-9a5d-ed733516f50d.png)  
+  ・FC3にvelocityを入れるのが一番良かった  
+
+#### B. Visualization results of the network outpu
+・Attention branchを追加した  
+![image](https://user-images.githubusercontent.com/30098187/67157267-e40f5500-f364-11e9-9467-1f6b56e32b69.png)  
+  
+・Visualization maskと比較した  
+![image](https://user-images.githubusercontent.com/30098187/67157305-6566e780-f365-11e9-9baa-30a4a0e35370.png)  
+　・a: 右折時。センターラインにattention。Sが+  
+　・b: 左折時。右ラインにattention。Sが-  
+　・c: 停止時。前方車両のストップライトにattention。  
+　・d: 追従時。前方車両にattention。  
+  
+#### C. Caption selection with attention maps
+・キャプション生成もしてみた  
+
+・Fully convolutional localization network (FCLN)を用いた  
+　・Region Proposal Networkがベースになっている  
+
+![image](https://user-images.githubusercontent.com/30098187/67157425-d8bd2900-f366-11e9-9008-95a46c3d7bf8.png)
+
