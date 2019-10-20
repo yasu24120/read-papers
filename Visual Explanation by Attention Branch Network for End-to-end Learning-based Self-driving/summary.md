@@ -5,7 +5,7 @@ http://mprg.jp/data/MPRG/C_group/C20190611_mori.pdf
 
 ## Contribution  
 ・1. ステアリングとスロットルを画像と車速から推定する  
-・2. attention mapをを会期問題に適用する  
+・2. attention mapをを回帰問題に適用する  
 　・Weighted Global Pooling (WGP) layerを用いる  
 ・3. Attention mapで可視化した    
 
