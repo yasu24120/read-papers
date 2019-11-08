@@ -28,10 +28,14 @@ HITLの先行研究についての紹介。参考文献を後で漁る
 　・(224 x 224)にリサイズ  
 　・目視で、attentionを修正  
    
- ![image](https://user-images.githubusercontent.com/30098187/68451683-0a713380-0233-11ea-9696-b469fe96a3c4.png)  
+![image](https://user-images.githubusercontent.com/30098187/68451683-0a713380-0233-11ea-9696-b469fe96a3c4.png)  
    
- ・Classificationのエラー率の変化は以下の通り  
- ![image](https://user-images.githubusercontent.com/30098187/68451747-4a381b00-0233-11ea-94c2-62a965e56576.png)  
+・Classificationのエラー率の変化は以下の通り  
+![image](https://user-images.githubusercontent.com/30098187/68451747-4a381b00-0233-11ea-94c2-62a965e56576.png)  
    
- ### 4. Proposed method  
- 
+### 4. Proposed method  
+・3つのデータセットを用いた  
+　・ImageNet (image classification)  
+　・CUB200-2010 (fine-grained recognition)  
+　・Indian Diabetic Retinopathy Image Dataset (IDRiD) (medical image recognition)  
+  
