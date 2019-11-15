@@ -33,3 +33,11 @@ https://sites.google.com/view/struct2depth
 　・produces SE3 transform between the frames  
 　　・i.e. 6 dimensional transformation vector E<sub>1→2</sub> = ψ<sub>E</sub>(I<sub>1</sub>, I<sub>2</sub>)  
 　　・形式は(t<sub>x</sub>, t<sub>y</sub>, t<sub>z</sub>, r<sub>x</sub>, r<sub>y</sub>, r<sub>z</sub>)  
+　　・2→3も同様に、E<sub>2→3</sub> = ψ<sub>E</sub>(I<sub>2</sub>, I<sub>3</sub>)  
+  
+・ある画像から、次の画像のwarp operationは、以下のように解釈が可能  
+　・depthがθ(I<sub>i</sub>)で得られる。  
+　・次のフレームのego-motion Ψ<sub>E</sub>は次のフレームへの写像として定義できる。  
+　・微分可能なimage warping operater φ(I<sub>i</sub>, D<sub>j</sub> , E<sub>i→j</sub> ) → ˆI<sub>i→j</sub>を使えば、どんな画像へも変換可能  
+　　・ˆI<sub>i→j</sub>: reconstructed j-th image  
+　　・D<sub></sub>  
