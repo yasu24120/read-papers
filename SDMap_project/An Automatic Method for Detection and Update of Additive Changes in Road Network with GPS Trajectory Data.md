@@ -53,6 +53,7 @@ Low quality trajectory data (GPS) から変化点を検出する。
   
 ### Methodology  
 ・ざっくりとしたフローは以下のとおり（再掲）:  
+  
 ![image](https://user-images.githubusercontent.com/30098187/69318641-f391fe80-0c80-11ea-9b93-80a766494272.png)   
   
 #### 3.1 Data preprocessing
@@ -69,8 +70,20 @@ Low quality trajectory data (GPS) から変化点を検出する。
 　・この研究では、point-to-segment map matching algorithmを用いる  
 　・efficiency and accuracy が良いらしい  
 ・処理は以下の通り:  
-　・(a) sampling pointとroad segmentの距離をすべて計算。50m以上の距離のroad segmentをフィルタする。  
-　・(b) road segmentの角度と、車両の方位角を計算。  
+　・(a) sampling pointとroad segmentの距離をすべて計算。thr以上の距離のroad segmentを候補から落とす。  
+　・(b) road segmentの角度と、車両の方位角を計算。差がthr以上のroad segmentを候補から落とす。  
 　・(c) 候補となるroad segmentのうち、最短距離にマッチングする。候補がなければ、unmatched sampleとする。  
+  
 ![image](https://user-images.githubusercontent.com/30098187/69323850-ca766b80-0c8a-11ea-8e56-03cd46258239.png)  
-
+  
+・本研究では、thrを50m, 15°とした  
+  
+ #### 3.3. Construction of New Roads: A Decomposition-Combination Map Generation Algorithm  
+・道路は細かい直線をつなぎ合わせたもの  
+　→　decomposition-combination strategyで新規道路の形状を構築する  
+・1. unmatched sampling pointsをlinear shapeな cluster化する  
+・2. piecewise linear curve fittingでroad segmentの中心線を推定する  
+・3. 新規道路をmergeする  
+  
+ ##### 3.3.1. Decomposition of Complex New Roads
+ 
