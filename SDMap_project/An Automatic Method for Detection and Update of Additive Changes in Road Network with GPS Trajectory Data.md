@@ -33,6 +33,15 @@ Low quality trajectory data (GPS) から変化点を検出する。
 　　　　　・1. 交差点を検出する  
 　　　　　・2. 交差点をつなぐような、road segmentを生成する  
 　　　　　・CellNetなるものがあるらしい  
-
+  
 　(2) local additive update methods  
-　　・
+　　・既存道路との差分を検出して、既存道路に情報を足していく  
+　　　・Zhao et al. : 既存道路にバッファを設けて、バッファ外のGPS情報をadditive roadと定義→binary image化→skeletonを抽出  
+　　　・Tang et al. : traffic direction, topology, geometry relationship constraint rulesから  
+　　　　　　　　　　　　新しい道路を検出　→ polynomial curve fitting algorithmで中心線を推定する  
+　　　・CrowdAtlas : 隠れマルコフモデルを用いたマップマッチングアルゴリズム  
+　　　　　　　　　　　 → unmatchedな軌跡をクラスタリングして、中心線を検出する  
+　　　　・なお、ノイズにゲロ弱らしい  
+　　　・COBWEB : unmatched trajectoryをinputとして、 ‘graph generalization,’ ‘merging,’ and ‘refinement’ を通じて道路を生成  
+  
+
