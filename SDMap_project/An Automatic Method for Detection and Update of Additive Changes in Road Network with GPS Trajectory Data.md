@@ -44,4 +44,33 @@ Low quality trajectory data (GPS) から変化点を検出する。
 　　　　・なお、ノイズにゲロ弱らしい  
 　　　・COBWEB : unmatched trajectoryをinputとして、 ‘graph generalization,’ ‘merging,’ and ‘refinement’ を通じて道路を生成  
   
+・本論文での手法（ざっくりと）  
+　・additive updateな手法  
+　・以下を使用:  
+　　・efficient partial map matching algorithm based on flexible spatial and direction constraint rules  
+　　・adopts a decomposition-combination strategy that has no restrictions or assumptions on the road network changes  
+　　・adaptive graph-based clustering algorithm  
+  
+### Methodology  
+・ざっくりとしたフローは以下のとおり（再掲）:  
+![image](https://user-images.githubusercontent.com/30098187/69318641-f391fe80-0c80-11ea-9b93-80a766494272.png)   
+  
+#### 3.1 Data preprocessing
+・道路ネットワークGを、有向グラフとする  
+　・直線を繋げたものとする {e1, e2, ..., em}  
+　・ vehicle ID, latitude, longitude, timestamp, vehicle heading, and vehicle speedを用いる  
+　　・V < 5 km/h or V > 100 km/h　のみを使用  
+　　・piecewise-linear interpolationを用いてGPS trajectories (polylines)をset of dense sampling points {p1, p2, …, pn}に変換  
+  　　・各samping pointはlatitude, longitude, and heading directionを含む  
+　　・本研究では、sampling distance for the interpolation = 50 meters とした  
+  
+#### 3.2 Detection of Additive Changes  
+・road buffers や HMM (隠れマルコフモデル)-based map matching algorithm が道路ネットワーク検出としてよく使われるらしい  
+　・この研究では、point-to-segment map matching algorithmを用いる  
+　・efficiency and accuracy が良いらしい  
+・処理は以下の通り:  
+　・(a) sampling pointとroad segmentの距離をすべて計算。50m以上の距離のroad segmentをフィルタする。  
+　・(b) road segmentの角度と、車両の方位角を計算。  
+　・(c) 候補となるroad segmentのうち、最短距離にマッチングする。候補がなければ、unmatched sampleとする。  
+![image](https://user-images.githubusercontent.com/30098187/69323850-ca766b80-0c8a-11ea-8e56-03cd46258239.png)  
 
