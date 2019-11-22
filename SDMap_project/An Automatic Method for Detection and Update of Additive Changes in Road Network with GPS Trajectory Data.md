@@ -86,4 +86,13 @@ Low quality trajectory data (GPS) から変化点を検出する。
 ・3. 新規道路をmergeする  
   
  ##### 3.3.1. Decomposition of Complex New Roads
- 
+ ・クラスタリングに、k-means, PAM, DBSCANを使うことができるが、本研究では別の方法を使う  
+ 　・k-means / PAM : パラメータ設定が必要、四角形なクラスタリングに向いていない  
+ 　・DBSCAN: サンプリングポイントがすくない情報がなくなってしまう  
+    
+ ・本研究では別のアルゴリズムを使う  
+ ![image](https://user-images.githubusercontent.com/30098187/69397068-fc89db00-0d27-11ea-971c-92ec71634497.png)  
+   
+　・
+  
+  
