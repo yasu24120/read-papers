@@ -95,8 +95,43 @@ Low quality trajectory data (GPS) から変化点を検出する。
  ![image](https://user-images.githubusercontent.com/30098187/69397068-fc89db00-0d27-11ea-971c-92ec71634497.png)  
    
 　・Delaunay triangulation (DT)を用いる  
- 　・spatial neighbourhood graphをsampling pointから作成する  
+　　・spatial neighbourhood graphをsampling pointから作成する  
+　　・https://note.nkmk.me/python-scipy-matplotlib-delaunay-voronoi/  
   
-・GT: unmatched pointsのDT graph  
-・
+・GT: unmatched points in DT graph {p1, p2, p3, …, pK}  
+・global_mean(GT): mean value of the length of all edges in GT  
+・global_std(GT) : standard deviation of the length of all edges in GT  
+・local_mean(pi) :  mean value of the length of edges linking to the vertex pi directly  
+・cut-off value for long edges linking to pi  
+![image](https://user-images.githubusercontent.com/30098187/69513908-f5173b80-0f8c-11ea-969d-3c36df72a83f.png)  
   
+・cut_off_value(pi)より、edgeの長さがながければ、piを削除する　(Figure 3b)  
+  
+・以下のステップでクラスタリングを行う(k-means的な感じ)  
+　・Step 1: sampling points are sorted and denoted as L = {p(1), p(2), p(3), …, p(K)}  
+　　・N(p(1)) ≥ N(p(2)) ≥ N(p(K))  
+　　・n: number of sampling points  
+　　・N(•): the number of spatial neighbors of a sampling point  
+　・Step 2: sampling point p(1)　をnew point clusterの初期値とする。C = {p(1)}  
+　　・p(1)に隣接する点を、以下の条件を満たせば、ひとつずつクラスタCに追加していく  
+　　　・条件1: p(k) connects to a sampling point in C by a path of three or fewer edges of the pruned DT graph  
+　　　・条件2: the angle between the heading direction of p(k) and the direction of cluster C is less than a threshold Λ (Λ = 15°)  
+　　　　・direction of cluster C : median value of the heading directions of all the sampling points in C  
+　・Step 3: The point cluster C grows until no neighboring points can be combined  
+　　・残りのGPS点について、 maximum number of spatial neighbors を新規クラスタの初期値とする  
+　　・全sampling pointsがどこかのクラスタに所属するまで繰り返す  
+　　・sampling points 5個未満のクラスタは捨てる  
+　・ハイパーパラメータ的なものは Λ のみ (今回は15°)  
+  
+#### 3.3.2. Road Centerline Extraction  
+・piecewise linear curve fitting algorithmを用いて道路中心線を推定する  
+https://github.com/cjekel/piecewise_linear_fit_py  
+  
+### 3.4. Topology Refinement of the Road Network
+・トポロジーを修正する。間があいていたりした場合、それを埋める。  
+![image](https://user-images.githubusercontent.com/30098187/69517112-18df7f00-0f97-11ea-91ad-644cf26874f4.png)  
+  
+・mathematical morphology based method を用いる (他にもいろいろある)  
+![image](https://user-images.githubusercontent.com/30098187/69517143-37457a80-0f97-11ea-8840-c90f6b974e04.png)  
+  
+・以下の４ステップで処理を行う  
