@@ -135,3 +135,31 @@ https://github.com/cjekel/piecewise_linear_fit_py
 ![image](https://user-images.githubusercontent.com/30098187/69517143-37457a80-0f97-11ea-8840-c90f6b974e04.png)  
   
 ・以下の４ステップで処理を行う  
+　・(a) road segmentの始点と終点を、それぞれ thr m伸ばす。  
+　　・今回はthr=30  
+　　・途中で、他のroad segmentと交差したら、それまで  
+　　・他のroad segmentとの距離が20m未満であれば、合体させる(?)   
+　・(b) binary imageに変換する。  
+　・(c) mathematical thinning operations (Lam et al.) で中心線を検出  
+　・(d) 交差点を検出する。  
+　　・point connects three or more road segmentsを交差点とする  
+　　・Douglas–Peucker algorithm(param = 3 m)を適用して、余分な点を削除する  
+
+### 4. Experimental Results  
+#### 4.1. Experiment I: Performance on the Construction of New Roads  
+・7つの都市のGPSデータを用いて評価  
+  
+![image](https://user-images.githubusercontent.com/30098187/69518412-d1f38880-0f9a-11ea-8a26-da9dca49ad03.png)  
+・four public GPS trajectory datasets  
+　・http://mapconstruction.org/  
+　・http://cs.uef.fi/mopsi/routes/network  
+・three low-quality taxi GPS trajectory datasets from Wuhan, China.  
+![image](https://user-images.githubusercontent.com/30098187/69518915-16cbef00-0f9c-11ea-9a12-457580d1dee4.png)  
+  
+・6つのアルゴリズムを比較対象とする  
+![image](https://user-images.githubusercontent.com/30098187/69518997-4a0e7e00-0f9c-11ea-9e08-89ed5ea5e799.png)  
+・実装は以下にある  
+　・http://mapconstruction.org/  
+  
+・評価指標は以下の通り:  
+![image](https://user-images.githubusercontent.com/30098187/69519088-7de9a380-0f9c-11ea-8050-22398888c6c8.png)  
