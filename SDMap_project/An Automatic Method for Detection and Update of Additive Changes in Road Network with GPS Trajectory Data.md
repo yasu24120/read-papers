@@ -155,6 +155,7 @@ https://github.com/cjekel/piecewise_linear_fit_py
 　・http://cs.uef.fi/mopsi/routes/network  
 ・three low-quality taxi GPS trajectory datasets from Wuhan, China.  
 ![image](https://user-images.githubusercontent.com/30098187/69518915-16cbef00-0f9c-11ea-9a12-457580d1dee4.png)  
+　・正解はhttps://www.openstreetmap.org/　のデータを用いた  
   
 ・6つのアルゴリズムを比較対象とする  
 ![image](https://user-images.githubusercontent.com/30098187/69518997-4a0e7e00-0f9c-11ea-9e08-89ed5ea5e799.png)  
@@ -163,3 +164,50 @@ https://github.com/cjekel/piecewise_linear_fit_py
   
 ・評価指標は以下の通り:  
 ![image](https://user-images.githubusercontent.com/30098187/69519088-7de9a380-0f9c-11ea-8050-22398888c6c8.png)  
+  
+・シカゴでのデータセットがベンチマーキングとしてよく用いられるらしい  
+・結果  
+  
+![image](https://user-images.githubusercontent.com/30098187/69525528-a200b100-0fab-11ea-8b3f-1918f6187191.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/69525583-c52b6080-0fab-11ea-89d7-18ef20598fab.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/69525655-f0ae4b00-0fab-11ea-877a-a9ee37408b3a.png)  
+  
+・シカゴとJoensuuのサンプリングレートを高くしてみた結果  
+![image](https://user-images.githubusercontent.com/30098187/69525920-7b8f4580-0fac-11ea-8e46-56e4667cd3f1.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/69526049-b6917900-0fac-11ea-8321-b592f3d71b75.png)  
+  
+#### 4.1.1. Time Complexity
+・この研究はOctaveで実装されている  
+・速度のベンチマーキング  
+　・Intel Core i3 CPUs @3.0 GHz  
+　・8 GB of RAM  
+　・Windows 7 operating system  
+  
+![image](https://user-images.githubusercontent.com/30098187/69526260-27389580-0fad-11ea-87c4-a2327de4f026.png)  
+  
+・CellNetはここ http://cs.uef.fi/mopsi/routes/network/  
+  
+#### 4.1.2. Parameter Sensitivity  
+・パラメータΛをふって、どれくらい影響があるかを検証  
+  
+![image](https://user-images.githubusercontent.com/30098187/69526433-84cce200-0fad-11ea-86e4-5048d8375194.png)  
+  
+#### 4.2. Experiment II: Application of the Proposed Method for the Update of the Road Network
+・open street mapのupdateに使用してみた  
+　・もともとの地図: 2014年版  
+　・GPS trajectory data from 6150 taxis on May 1, 2015　を使用  
+　　・10,662 trajectories, and the sampling rate varied from 10 to 180 seconds  
+  
+・検出したクラスタは下記  
+![image](https://user-images.githubusercontent.com/30098187/69526670-14729080-0fae-11ea-8227-d0c2a1841aaa.png)  
+  
+・road networkをアップデートしてみた結果は以下の通り  
+![image](https://user-images.githubusercontent.com/30098187/69526880-7df29f00-0fae-11ea-906a-9da03f8fc0ef.png)　
+  
+・2018年のOSMと比較したら、F-scoreは 0.725  
+　・matching distance threshold は 20 m  
+　・衛星写真と比較すると、OSMにはない道も、本研究では検出できたらしい  
+ 
