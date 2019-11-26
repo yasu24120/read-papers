@@ -47,3 +47,9 @@ SIGSPATIAL GIS ’12
 ![image](https://user-images.githubusercontent.com/30098187/69609863-dd63b400-106d-11ea-946b-2ea91c3567ac.png)  
   
 #### 4.1 Algorithm Description
+・D(x, y) : x, y における密度  
+・レベル l ∈ 1 . . . l<sub>max</sub>において、T<sub>l</sub> : binary image  
+　・T<sub>l</sub>(x, y) = 1 if D(x, y) ≥ l  
+　・再帰的にskelton images S<sub>l</sub> for level l を生成する  
+・S<sub>l</sub> = skeletonize(T<sub>l</sub> +S<sub>l+1</sub>)  
+　・where S<sub>l<sub>max</sub></sub> = skeletonize(T<sub>l<sub>max</sub></sub> )  
