@@ -75,6 +75,23 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 　　・pruningとshift nodes/edgesをしたときに、あやしいedgesの発生を予防できるらしい  
 　・目的2. 予めマップマッチングしておくことで、後段の処理が高速化できるらしい  
 　・Viterbi’s algorithmを用いてマップマッチングする  
+  
+### 6. TOPOLOGY REFINEMENT  
+・pruningする : マップマッチング結果が1個未満のエッジを消す  
+・交差点をマージする  
+・edge内でどう移動できるかを検出するための統計情報を付与する  
+  
+#### 6.1 Pruning Spurious Edges
+・マップマッチング結果が1個未満のエッジを消す  
+  
+・t : 軌跡  
+・e : edge  
+・n<sup>t</sup><sub>e</sub> : number of traversals τ  of e  
+・RMSD(τ, e) < RMSD<sub>max</sub>  
+[image](https://user-images.githubusercontent.com/30098187/69617680-e52a5500-107b-11ea-8352-6ca49df49bfb.png)  
+・p ∈ τ : GPS points  
+・dist : the distance between p and the nearest point on e  
+・RMSD(τ, e) < RMSD<sub>max</sub>　をgood matchと定義  
    
- ### 6. TOPOLOGY REFINEMENT  
- 
+・n<sub>e</sub> = Σ<sub>t</sub>n<sup>t</sup><sub>e</sub>がthr未満だったらpruneする  
+  
