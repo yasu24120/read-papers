@@ -88,10 +88,31 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 ・e : edge  
 ・n<sup>t</sup><sub>e</sub> : number of traversals τ  of e  
 ・RMSD(τ, e) < RMSD<sub>max</sub>  
-[image](https://user-images.githubusercontent.com/30098187/69617680-e52a5500-107b-11ea-8352-6ca49df49bfb.png)  
+![image](https://user-images.githubusercontent.com/30098187/69617680-e52a5500-107b-11ea-8352-6ca49df49bfb.png)  
 ・p ∈ τ : GPS points  
 ・dist : the distance between p and the nearest point on e  
 ・RMSD(τ, e) < RMSD<sub>max</sub>　をgood matchと定義  
    
 ・n<sub>e</sub> = Σ<sub>t</sub>n<sup>t</sup><sub>e</sub>がthr未満だったらpruneする  
   
+![image](https://user-images.githubusercontent.com/30098187/69618745-bdd48780-107d-11ea-97aa-d2c3980bad61.png)  
+  
+#### 6.2 Collapsing Nodes into Intersections
+・変な形の交差点を補正する  
+![image](https://user-images.githubusercontent.com/30098187/69618804-d8a6fc00-107d-11ea-84d1-dcb5284e5d1b.png)  
+・ノードを近い順にソートして、(多分)thr未満であれば、平均座標でマージする  
+  
+#### 6.3 Map Matching Do-Over
+・もっかいマップマッチングする  
+  
+#### 6.4 Detecting Allowable Edge Transitions  
+・車両の進行方向を元に、有向グラフ的にしていく  
+  
+### 7. GEOMETRY REFINEMENT  
+・疲れたのであとでいれる
+
+### 9. EVALUATION
+#### 9.1 Dataset
+・シャトルバスの通行記録  
+　・7ヶ月分  
+　・13大学  
