@@ -60,7 +60,7 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
  ![image](https://user-images.githubusercontent.com/30098187/69613712-5fa3a680-1075-11ea-8deb-37a2b9b7a494.png)  
    
 #### 4.2 Algorithm Intuition  
-・直感的にわかりやすく説明してくれているけどよくわからん  
+・直感的にわかりやすく説明してくれているけどよくわからん。コードみたほうが早い  
   
 #### 4.3 Performance Optimizations
 ・並列化できるよ。処理速度があがるよ。  
@@ -70,3 +70,11 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 ・Douglas-Puecker algorithmを用いて道路を検出する  
   
 ### 5. DENSITY-AWARE MAP MATCHING  
+・initial mapにsampling pointsをマッチングさせる  
+　・目的1. nodesとedgeに上限を設けることができる。  
+　　・pruningとshift nodes/edgesをしたときに、あやしいedgesの発生を予防できるらしい  
+　・目的2. 予めマップマッチングしておくことで、後段の処理が高速化できるらしい  
+　・Viterbi’s algorithmを用いてマップマッチングする  
+   
+ ### 6. TOPOLOGY REFINEMENT  
+ 
