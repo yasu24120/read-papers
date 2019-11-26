@@ -44,6 +44,18 @@ contributionは以下の通り:
 　　　・neural networks  
   
 ・Change Detection in Dynamic Graphs  
-　・ Bayesian methods [31], and
-distance-based methods, which define a distance metric on graphs:
-based on diameter [15], node or edge weights [30, 32], connectivity [24], or subgraphs [
+　・Bayesian methods  
+　・distance-based methods, which define a distance metric on graphs:  
+　　・based on diameter, node or edge weights, connectivity, or subgraphs  
+  
+・Graph-based Anomaly Detection and Scan Statistics  
+  
+・手法のベンチマーキングは以下  
+  
+![image](https://user-images.githubusercontent.com/30098187/69600481-2149bf80-1054-11ea-80cf-d110ea6eeeb4.png)  
+  
+### 3 BACKGROUND  
+#### 3.1 Prize-Collecting Steiner Tree (PCST)  
+・connected subgraph of a graphを見つける  
+　・maximizes total profit values on the subgraph node  
+　・minimizing cost of the edges in the subgraph    
