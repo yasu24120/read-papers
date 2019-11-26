@@ -1,5 +1,6 @@
 # An Automatic Method for Detection and Update of Additive Changes in Road Network with GPS Trajectory Data
-https://www.mdpi.com/2220-9964/8/9/411/htm
+https://www.mdpi.com/2220-9964/8/9/411/htm  
+ISPRS Int. J. Geo-Inf. 2019  
 
 ## 概要
 Low quality trajectory data (GPS) から変化点を検出する。  
