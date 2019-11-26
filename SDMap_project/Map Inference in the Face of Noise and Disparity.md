@@ -1,6 +1,7 @@
 # Map Inference in the Face of Noise and Disparity
 https://www.cs.uic.edu/~jakob/papers/biagioni-gis12.pdf  
 SIGSPATIAL GIS ’12  
+https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz  
 
 ## 概要  
 雑なデータから、地図を生成する方法を提案する。  
@@ -48,8 +49,24 @@ SIGSPATIAL GIS ’12
   
 #### 4.1 Algorithm Description
 ・D(x, y) : x, y における密度  
-・レベル l ∈ 1 . . . l<sub>max</sub>において、T<sub>l</sub> : binary image  
+・l ∈ 1 . . . l<sub>max</sub>:レベル  
+・T<sub>l</sub> : lにおけるbinary image  
 　・T<sub>l</sub>(x, y) = 1 if D(x, y) ≥ l  
-　・再帰的にskelton images S<sub>l</sub> for level l を生成する  
-・S<sub>l</sub> = skeletonize(T<sub>l</sub> +S<sub>l+1</sub>)  
+・再帰的にskelton images S<sub>l</sub> for level l を生成する  
+　・S<sub>l</sub> = skeletonize(T<sub>l</sub> +S<sub>l+1</sub>)  
 　・where S<sub>l<sub>max</sub></sub> = skeletonize(T<sub>l<sub>max</sub></sub> )  
+・各レベルごとに、フィルタをかけて、線を細くしていく  
+　・この部分に関しては、論文の説明よりソースコードのほうがわかりやすい  
+ ![image](https://user-images.githubusercontent.com/30098187/69613712-5fa3a680-1075-11ea-8deb-37a2b9b7a494.png)  
+   
+#### 4.2 Algorithm Intuition  
+・直感的にわかりやすく説明してくれているけどよくわからん  
+  
+#### 4.3 Performance Optimizations
+・並列化できるよ。処理速度があがるよ。  
+
+#### 4.4 Edge Extraction from Skeleton Image
+・combustion techniqueを用いてpixelとedgeを対応付ける  
+・Douglas-Puecker algorithmを用いて道路を検出する  
+  
+### 5. DENSITY-AWARE MAP MATCHING  
