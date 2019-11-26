@@ -30,3 +30,20 @@ contributionは以下の通り:
 ![image](https://user-images.githubusercontent.com/30098187/69528963-a2507a80-0fb2-11ea-9309-9f0cba467f3d.png)  
   
 ### 2 RELATED WORK  
+・Multivariate change detection  
+　・狙いは、時系列情報を２つ以上の領域に分けること  
+　　・greedy binary segmentation  
+　　・slower but exact dynamic programming(DP)  
+　　　・PELT: do pruning step to perform DP in linear time  
+　　・他にも、下記があるが、グラフ構造を前提としていないため、localな情報を得ることが出来ない  
+　　　・Group Fused Lasso (GFL)  
+　　　・Bayesian change detection  
+　　　・nonparametric methods  
+　　　・information-theoretic methods  
+　　　・support vector machines  
+　　　・neural networks  
+  
+・Change Detection in Dynamic Graphs  
+　・ Bayesian methods [31], and
+distance-based methods, which define a distance metric on graphs:
+based on diameter [15], node or edge weights [30, 32], connectivity [24], or subgraphs [
