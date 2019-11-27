@@ -109,7 +109,7 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 ・車両の進行方向を元に、有向グラフ的にしていく  
   
 ### 7. GEOMETRY REFINEMENT  
-・疲れたのであとでいれる
+・オリジナルの軌跡と矛盾しないように、ジオメトリを修正する  
 
 ### 9. EVALUATION
 #### 9.1 Dataset
