@@ -110,6 +110,12 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
   
 ### 7. GEOMETRY REFINEMENT  
 ・オリジナルの軌跡と矛盾しないように、ジオメトリを修正する  
+・k-meansをベースとした手法で修正する  
+　・(a) creating an initial guess based on the input map  
+　・(b) restricting clustering eligibility  
+  
+・Initialization  
+　・  
 
 ### 9. EVALUATION
 #### 9.1 Dataset
