@@ -9,4 +9,5 @@ https://arxiv.org/pdf/1402.5138.pdf
   
 ## 本分メモ  
 
+### 1 Introduction  
 
