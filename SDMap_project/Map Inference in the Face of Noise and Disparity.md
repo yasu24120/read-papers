@@ -167,7 +167,15 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 ・両方共、F-scoreを用いる  
   
 #### 9.4 Results
-  
+・他手法との比較  
 ![image](https://user-images.githubusercontent.com/30098187/69789300-a32c1b00-1203-11ea-994f-c342fcc67931.png)  
   
- 
+・precision / recall / f-scoreのグラフ  
+![image](https://user-images.githubusercontent.com/30098187/69789877-bd1a2d80-1204-11ea-8dd2-ba4cf06d1b25.png)  
+  
+・7ヶ月分のデータを使ってやってみた  
+![image](https://user-images.githubusercontent.com/30098187/69789939-dae79280-1204-11ea-84e4-ce183b766e8a.png)  
+  
+・可視化  
+![image](https://user-images.githubusercontent.com/30098187/69790073-1d10d400-1205-11ea-9969-8a3f19639632.png)  
+
