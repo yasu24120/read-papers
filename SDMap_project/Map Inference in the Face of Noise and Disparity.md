@@ -129,10 +129,45 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 ・Update  
 　・各meanをずらす  
 　・文章からだとよくわからん  
-
-
-### 9. EVALUATION
-#### 9.1 Dataset
+　・Fig. 7 (a)ができるらしい  
+  
+![image](https://user-images.githubusercontent.com/30098187/69786969-d4eeb300-11fe-11ea-8d1e-03514c79e75c.png)  
+  
+#### 7.1 Estimating Transition Trajectories  
+・各road segment pairについて、それぞれmeanを計算する  
+・その後、transition meanを用いてk-meansをもう一度行う  
+・これも文章だとよくわからんから後でソース読む  
+   
+### 8. RELATED WORK  
+・地図生成は、以下の3つにわけられる  
+　・k-means系  
+　・Trace merging algorithm系  
+　・Kernel Density estimation系  
+  
+・8.1 / 8.2も、Gray-scale skeletonizationとRoad centerline finding algorithmの関連研究の紹介  
+  
+### 9. EVALUATION  
+#### 9.1 Dataset  
 ・シャトルバスの通行記録  
 　・7ヶ月分  
 　・13大学  
+  
+![image](https://user-images.githubusercontent.com/30098187/69789196-652ef700-1203-11ea-8dbb-1a0183442e8a.png)  
+  
+#### 9.2 Other algorithms  
+・他とベンチマーキングした  
+
+#### 9.3 Evaluation Methodology  
+・GTをopen street mapとした  
+・評価指標はふたつ  
+　・GEO: evaluates map geometry only. conectivity of the map is ignored  
+　　・road segmentを5mずつに切って、one-to-one matchingを行う。  
+　　　・thr 未満の場合、同じセグメントとする  
+　・TOPO: GeometryとTopologyの両方を評価する  
+・両方共、F-scoreを用いる  
+  
+#### 9.4 Results
+  
+![image](https://user-images.githubusercontent.com/30098187/69789300-a32c1b00-1203-11ea-994f-c342fcc67931.png)  
+  
+ 
