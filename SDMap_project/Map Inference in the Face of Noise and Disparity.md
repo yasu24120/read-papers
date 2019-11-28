@@ -115,7 +115,21 @@ https://www.cs.uic.edu/pub/Bits/Software/gis12_mapinference.tar.gz
 　・(b) restricting clustering eligibility  
   
 ・Initialization  
-　・  
+　・Intersection means と segment meansを作る  
+　 ・各intersectionとendpointに、intersection meanをひとつ対応付ける  
+　・各road segmentにおいて、[L/m - 2]の数のmeanを作成する。  
+　　・L : length of the segment  
+　　・m : maximum distance between means  
+　　・始点と終点のmeanは削除(intesection meanとして定義済みのため)  
+　　・残りはuniformely distributed  
+   
+・Assignment  
+　・各GPS sample を最近傍の eligile mean に割り当てる。  
+  
+・Update  
+　・各meanをずらす  
+　・文章からだとよくわからん  
+
 
 ### 9. EVALUATION
 #### 9.1 Dataset
