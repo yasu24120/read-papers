@@ -86,4 +86,13 @@ https://arxiv.org/pdf/1402.5138.pdf
 ![image](https://user-images.githubusercontent.com/30098187/69946203-8c046a80-152e-11ea-869e-02ec988c8e86.png)  
   
 ##### 2.2.1 Ahmed and Wenk (4)
-・1. 
+・1. partial map matchingをする。pointsをmatched と unmatchdedに振り分け  
+　・variant of the Fr´echet distanceに基づく  
+  
+![image](https://user-images.githubusercontent.com/30098187/69946913-ddf9c000-152f-11ea-8734-0c679146e255.png)  
+  
+・2. unmatched pointsを新規道路として定義  
+・3. minimum-link algorithmを用いて統合する  
+  
+##### 2.2.2 Biagioni and Eriksson (8)  
+
