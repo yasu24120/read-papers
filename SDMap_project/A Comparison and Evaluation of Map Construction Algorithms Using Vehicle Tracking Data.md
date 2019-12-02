@@ -95,4 +95,22 @@ https://arxiv.org/pdf/1402.5138.pdf
 ・3. minimum-link algorithmを用いて統合する  
   
 ##### 2.2.2 Biagioni and Eriksson (8)  
-
+・KDEの出力からskeleton mapを作成する  
+  
+![image](https://user-images.githubusercontent.com/30098187/69947252-a0496700-1530-11ea-9c64-6a5e0e7ccb7e.png)  
+  
+##### 2.2.3 Cao and Krumm (11)
+・1. simulation of physical attractionを用いて、似ているtracksをひとまとめにする  
+　・データが綺麗になるらしい  
+・2. 距離と方角に基づいて、edgeやvertexをinsert、merge、addをする  
+  
+![image](https://user-images.githubusercontent.com/30098187/69947586-47c69980-1531-11ea-80a1-58489a68d6a0.png)  
+  
+##### 2.2.4 Davies et al. (16)  
+・1. セル毎にKDEをする  
+・2. bit mapから輪郭を検出する  
+・3. Voronoi diagramを用いて輪郭から中心線を求める  
+  
+![image](https://user-images.githubusercontent.com/30098187/69947874-ece17200-1531-11ea-8764-7b0fac1792b3.png)  
+  
+##### 2.2.5 Edelkamp and Schr¨odl (17)
