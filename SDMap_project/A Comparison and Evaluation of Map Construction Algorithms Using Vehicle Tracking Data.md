@@ -114,3 +114,47 @@ https://arxiv.org/pdf/1402.5138.pdf
 ![image](https://user-images.githubusercontent.com/30098187/69947874-ece17200-1531-11ea-8764-7b0fac1792b3.png)  
   
 ##### 2.2.5 Edelkamp and Schr¨odl (17)
+・point clustering + fitted splineでroad segmentを描画  
+![image](https://user-images.githubusercontent.com/30098187/70034812-23cc8c00-15f5-11ea-838d-23a0021a232a.png)  
+  
+##### 2.2.6 Ge et al. (22)  
+・各点を、基礎グラフのsigle branchとして分解する  
+　・input pointsは密と仮定  
+　・distance matrix か proximity graph of the point set　のみが入力として必要(?)  
+・これはよくわからないので後で勉強する  
+  
+![image](https://user-images.githubusercontent.com/30098187/70036188-99395c00-15f7-11ea-8326-046b8a3acbf1.png)  
+  
+##### 2.2.7 Karagiorgou and Pfoser (27)  
+・intersection node まわりの点を"bundle" (Trace Bundle)する  
+　・キモは、intersection nodesの発見  
+・曲がっている箇所を、spacial proximity とturn typeでクラスタリングする  
+　・右左折の中心点を交差点としているみたい  
+  
+![image](https://user-images.githubusercontent.com/30098187/70036978-1913f600-15f9-11ea-92c0-c0adb82df455.png)  
+  
+### 3 Quality Measures for Map Comparison  
+・以下の観点があるらしい  
+　・(1) GT地図Gとして使えそうか?  
+　・(2) Gと作成された地図Cとの差  
+　　・そもそもGが完璧に整備されていないので、以下のような工夫がよくされる  
+　　　・GTを手動でpruningする / マップマッチング結果に基づいてpruningなど  
+
+#### 3.1 Related Work  
+・グラフ理論では、グラフ同士の距離をはかるための指標が色々ある  
+　・Graph edit distanceとか色々あるけど、NP困難だったりする  
+  
+・Street map 的には、下記が提案されている  
+　・Point set-based distance measures  
+　　・各グラフとset of pointとして、directed and undirected Hausdorff distances などで評価  
+　・path-based distance measures  
+　　・graphをset of pathsとして、paths同士の距離を求める  
+  
+#### 3.2 Quality Measures used for Comparison  
+##### 3.2.1 Directed Hausdorff Distance (6)  
+・d (A, B) = max<sub>a∈A</sub> min<sub>b∈B</sub> d(a, b)  
+　・d (A, B) : 通常はユークリッド距離  
+・point aをnearest point bにあてがって、maxをとる  
+　・実際にやってみると、大体がεになるらしい  
+  
+##### 3.2.2 Path-Based Distance (3)  
