@@ -150,6 +150,9 @@ https://arxiv.org/pdf/1402.5138.pdf
 　・path-based distance measures  
 　　・graphをset of pathsとして、paths同士の距離を求める  
   
+・正直、サマられすぎてて原文読まないとよくわからない  
+・たとえ話で論文書くのやめてほしい。よくわからん  
+    
 #### 3.2 Quality Measures used for Comparison  
 ##### 3.2.1 Directed Hausdorff Distance (6)  
 ・d (A, B) = max<sub>a∈A</sub> min<sub>b∈B</sub> d(a, b)  
@@ -158,3 +161,78 @@ https://arxiv.org/pdf/1402.5138.pdf
 　・実際にやってみると、大体がεになるらしい  
   
 ##### 3.2.2 Path-Based Distance (3)  
+・曲線におけるFr´echet distance  
+![image](https://user-images.githubusercontent.com/30098187/70098456-54e9a280-166f-11ea-8cd6-db63e1376900.png)  
+　・α, β : 連続、全単射、non-decreasingなパラメータ  
+　・散歩する犬と人間の、紐の最短距離のイメージ  
+  
+・Path-based Distance  
+![image](https://user-images.githubusercontent.com/30098187/70098705-23bda200-1670-11ea-90a7-57e9e5806d38.png)  
+　・C, G : geometric graph  
+　・π<sub>C</sub> / π<sub>C</sub> : set of paths generated from C / G  
+　　・近似して、有限時間で計算する  
+  
+##### 3.2.3 Shortest Path Based Distance (27)  
+・originとdestination間のshortest pathを計算する(ナビ地図的な)  
+　・Discrete Fr´echet distance と Average Vertical distanceを用いて比較  
+・「大体あってるよね感」がわかるらしい  
+  
+##### 3.2.4 Graph-Sampling Based Distance (7)  
+・適当に、円を書く。その中のnodeを拾う  
+・CとGのサンプリングされたnode同士で one-to-one bottleneck matchingを行う  
+　・nodeが近ければmatch、遠ければunmatchとする  
+・F値で評価する  
+  
+![image](https://user-images.githubusercontent.com/30098187/70101616-df82cf80-1678-11ea-9600-443eb5a31e19.png)  
+・precision = 1 − spurious  
+・spurious = spurious marbles/ (spurious marbles + matched marbles)  
+　・spurious marbles : 余ったC  
+・recall = 1 − missing  
+・missing = empty holes/ (empty holes + matched holes)  
+　・empty holes : 余った G  
+  
+![image](https://user-images.githubusercontent.com/30098187/70101804-78b1e600-1679-11ea-80b7-d964f057056c.png)  
+  
+### 4 Datasets 
+・mapconstruction.org　からアクセスできる  
+  
+![image](https://user-images.githubusercontent.com/30098187/70101910-d8a88c80-1679-11ea-9397-aa5adbaeafb0.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70101950-f970e200-1679-11ea-8fc4-6a646c027fcf.png)  
+  
+### 5 Experiments  
+・実行時間について  
+　・chicago dataset では10min〜20hr  
+　・Berlin dartaset では2h〜4days  
+  ・アルゴリズムによっては、計算時間が長すぎて検証できなかったものもあるらしい  
+  
+#### 5.1 Constructed Maps  
+・可視化した結果  
+  
+![image](https://user-images.githubusercontent.com/30098187/70102715-4d7cc600-167c-11ea-9fbb-96353f6952aa.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70118380-27bae580-16ab-11ea-9d7e-ec41f0325c22.png)  
+  
+・パラメータ類  
+　・ Ahmed and Wenk (4)  
+　　・εを180, 90, 170, 80 メートルにした  
+　　・Athens large, Athens small, Berlin, Chicago  
+　・proximity and bearing  
+　　・Biagioni 50m (8)  
+　　・Cao 20m and 45° (11)  
+　　・Davies 16m (16)  
+　　・Edelkamp 50m and 45°(17)  
+　・Karagiorgou and Pfoser (27)  
+　　・direction, speed and proximity : 15°、40km/h and 25m  
+  
+![image](https://user-images.githubusercontent.com/30098187/70118624-cba49100-16ab-11ea-8933-a7dba395d609.png)  
+  
+・結果の特性  
+　・point clustering algorithms based on kernel density estimation  
+　　・lower complexityなmapを作成する  
+　　　・input tracksが少ない数の道はdropする  
+　　・グラフ的に作成した場合、よりDenseな地図ができあがる  
+　・incremental track insertion  
+　　・input trackのerrorが大きいと、生成に失敗するらしい  
+　　　・multiple edgeになってしまうらしい  
+　　・
