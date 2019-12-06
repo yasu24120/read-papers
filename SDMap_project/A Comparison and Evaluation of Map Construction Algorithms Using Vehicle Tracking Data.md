@@ -235,4 +235,45 @@ https://arxiv.org/pdf/1402.5138.pdf
 　・incremental track insertion  
 　　・input trackのerrorが大きいと、生成に失敗するらしい  
 　　　・multiple edgeになってしまうらしい  
-　　・
+
+#### 5.2 Path-Based and Hausdorff Distance  
+・path-based distance measure  
+　・Fr´echet distance  
+　　・link-length = 3　なpathを抽出して、GTとの距離を計算  
+　　・minimum, maximum, median, average　を計算  
+　　・d%-distance : 上位d%を除いた、maximumなdistance を計算(外れ値除去)  
+  
+　・Directed Hausdorff distance  
+　　・link-length 1 なpathを抽出して距離を計算  
+   
+![image](https://user-images.githubusercontent.com/30098187/70296500-439ac480-182e-11ea-8642-011dfab58f28.png)  
+  
+・  
+  
+#### 5.3 Shortest Path Based Measure  
+・500 random shortest path を生成  
+　・originとdestinationはuniformly distributedになるようにした  
+　　・Discrete Fr´echet / Average Vertical distance で評価  
+  
+![image](https://user-images.githubusercontent.com/30098187/70297161-45658780-1830-11ea-986f-428beb4d74af.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70297198-6928cd80-1830-11ea-8a38-b521a64a0cad.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70297215-88bff600-1830-11ea-88e9-f8d32dca5feb.png)  
+  
+・similarityとcoverageを評価できる指標らしい  
+  
+#### 5.4 Graph-Sampling Based Distance  
+・(7) でソースコードが公開されているらしい。パラメータは以下の通り設定:  
+　・1. sampling density : どれだけ密にサンプリングするか。5 meters  
+　・2. matched distance : どれだけの距離を許容するか。 10〜120mでふった  
+　・3. maximum distance from root : どの範囲までサンプリングするか。300m  
+　・4. number of runs : 何箇所試すか。we use 1000  
+　　・ただし、同じ箇所をサンプリングできるようにした  
+  
+![image](https://user-images.githubusercontent.com/30098187/70298159-fcafcd80-1833-11ea-8621-218688054b4b.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70298178-1224f780-1834-11ea-88f5-2a0f37685a2f.png)  
+  
+### 5.5 Summary  
+・Karagiorgouのアルゴリズムが良いらしい  
