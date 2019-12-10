@@ -40,4 +40,14 @@ https://sites.google.com/view/struct2depth
 　・次のフレームのego-motion Ψ<sub>E</sub>は次のフレームへの写像として定義できる。  
 　・微分可能なimage warping operater φ(I<sub>i</sub>, D<sub>j</sub> , E<sub>i→j</sub> ) → ˆI<sub>i→j</sub>を使えば、どんな画像へも変換可能  
 　　・ˆI<sub>i→j</sub>: reconstructed j-th image  
-　　・D<sub></sub>  
+　　・D<sub>j</sub>: corresponding depth estimate  
+　　・E<sub>i→j</sbu>: egomotion estimate  
+　　・φ : 下記の画像座標Iから、warpingをする関数  
+　　　・ˆI<sup>xy</sup><sub>i→j</sub> = I<sup>xˆyˆ</sup><sub>i</sub>
+　　　・[ˆx, y, ˆ 1]<sup>T</sup> = KE<sub>i→j</sub> (D<sup>xy</sup><sub>j</sub>·K<sup>−1</sup>[x, y, 1]<sup>T</sup>)  
+　　　　・こいつはprojected coordinates  
+　・次フレームとのphotometric lossを計算する  
+　　・ˆI<sub>i→j</sub>と実際の次のフレーム画像 I<sub>j</sub>を比較  
+　　・例えば、reconstruction loss: L<sub>rec</sub> = min(||ˆI<sub>1→2</sub> − I<sub>2</sub>||)  
+  
+### Algorithm Baseline  
