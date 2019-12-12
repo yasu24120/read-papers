@@ -50,4 +50,13 @@ https://sites.google.com/view/struct2depth
 　　・ˆI<sub>i→j</sub>と実際の次のフレーム画像 I<sub>j</sub>を比較  
 　　・例えば、reconstruction loss: L<sub>rec</sub> = min(||ˆI<sub>1→2</sub> − I<sub>2</sub>||)  
   
-### Algorithm Baseline  
+### Algorithm Baseline 
+・ベースラインのlossは以下  
+　・reconstruction loss : 前後のフレームからの再投影誤差  
+![image](https://user-images.githubusercontent.com/30098187/70493650-c2a03d80-1b4b-11ea-98c0-d93c83453ca5.png)  
+  
+　・ SSIM (a depth smoothness loss) と depth normalization during trainingを行っている  
+![image](https://user-images.githubusercontent.com/30098187/70493713-0135f800-1b4c-11ea-8542-2b659b23bfac.png)  
+  
+### Motion Model
+
