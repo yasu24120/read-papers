@@ -46,3 +46,27 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
   
 ![image](https://user-images.githubusercontent.com/30098187/70299622-c6288180-1838-11ea-9f15-6a1c01325876.png)  
   
+・検出結果例は以下(Fig. 5(a)):  
+  
+![image](https://user-images.githubusercontent.com/30098187/70771912-3180cf00-1db6-11ea-829b-b48d094a4d5a.png)  
+
+　・O : odd turn types i.e. 右折  
+　・X : even turn types i.e. 左折  
+　・黄色, オレンジ, 赤, 黒 : (1,2), (3,4), (5,6), (7,8)  
+  
+##### 3.2.3 Intersections  
+・ターンクラスタを交差点にさらにクラスタリングする  
+・agglomerative hierarchical clustering method でクラスタリングする  
+　・Fig 4. Line 13.  
+　・distance thr=25mとした。実験的に求めた。高くするとクラスタ数が少なくなる。  
+  
+![image](https://user-images.githubusercontent.com/30098187/70299622-c6288180-1838-11ea-9f15-6a1c01325876.png)  
+  
+　・交差点毎に、以下の情報を保持:  
+　　・weight : 交差点が、何個のturnから構成されているか  
+　　・permitted maneuvers : どの方向へ曲がることができるか  
+  
+・Fig 5(b)における '*'が交差点  
+  
+ #### 3.3 Connecting Intersection Nodes  
+ 
