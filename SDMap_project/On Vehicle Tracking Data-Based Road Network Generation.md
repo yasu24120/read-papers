@@ -35,5 +35,8 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 ##### 3.2.2 Clustering Turns  
 ・ターン種別をクラスタリングする  
 　・あらかじめ、ターンの種別を定義しておく i.e. maxで何叉路か？  
-・
- 
+　　・今回は4叉路を対象、ターンタイプを8種類とする  
+　　　(・TMI 地図DB仕様に合わせればいいや・・・)  
+  
+ ![image](https://user-images.githubusercontent.com/30098187/70771705-5de81b80-1db5-11ea-9f33-7b6cb6b28151.png)  
+  
