@@ -69,4 +69,16 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 ・Fig 5(b)における '*'が交差点  
   
  #### 3.3 Connecting Intersection Nodes  
- 
+ ・Trajectory dataを用いて、交差点間をつなげていく  
+   
+ ・アルゴリズムは下記:   
+ 　・ざっくりというと、trajectoryを元に、intersectionを順番につなぐ。最後にlinkをマージする  
+![image](https://user-images.githubusercontent.com/30098187/70778955-d4414980-1dc6-11ea-937c-4cd9e44debf3.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/70779108-297d5b00-1dc7-11ea-89c3-64ea5693608a.png)  
+  
+・マージ(trajectoryがどこのintersectionに対応するか)はsweep-line algorithmを用いる (Fig. 7, Lines 8-13)  
+・average positionを計算する  
+・計算時に以下を格納しておく  
+　・(i) weight : link sampleに、何個のtrajectoryが含まれているか  
+　・(ii) width : maximum spatial extent of the trajectories  
