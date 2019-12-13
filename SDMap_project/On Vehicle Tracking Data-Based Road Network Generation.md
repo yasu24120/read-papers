@@ -29,8 +29,7 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 　・40km/h　未満で、　15°以上の角度とした。(データから求めたらしい)  
   
 ![image](https://user-images.githubusercontent.com/30098187/70299582-a1cca500-1838-11ea-8a2c-c57528e2415a.png)  
-  
-![image](https://user-images.githubusercontent.com/30098187/70299622-c6288180-1838-11ea-9f15-6a1c01325876.png)  
+ 
   
 ##### 3.2.2 Clustering Turns  
 ・ターン種別をクラスタリングする  
@@ -39,4 +38,11 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 　　　(・TMI 地図DB仕様に合わせればいいや・・・)  
   
  ![image](https://user-images.githubusercontent.com/30098187/70771705-5de81b80-1db5-11ea-9f33-7b6cb6b28151.png)  
+  
+・(i) spatial proximilityと (ii)turn similarityに基づいてターンをクラスタリングする  
+・agglomerative hierarchical clustering method でクラスタリングする  
+　・Fig 4. Line 12.  
+　・distance thr=50mとした。実験的に求めた  
+  
+![image](https://user-images.githubusercontent.com/30098187/70299622-c6288180-1838-11ea-9f15-6a1c01325876.png)  
   
