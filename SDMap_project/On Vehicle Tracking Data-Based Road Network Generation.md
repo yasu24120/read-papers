@@ -119,8 +119,50 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 ・下記のstepで評価を行う  
 　・1. Tracking dataに対応する実際の地図ネットワークを抽出  
 　・2. 出発地・到着地をランダムに選択し、shortest pathを計算する  
-　・3. shortest-pathsのsimilarity計算のために、Distinct Fr`echet distance and Average Vertical distanceを計算する  
-`  
+　・3. shortest-pathsのsimilarity計算のために、Distinct Frechet distance and Average Vertical distanceを計算する  
+  
 #### 4.1 Road Network Extraction  
-・
+・trajectoryに対応する道路ネットワークをマップマッチング的に抽出  
+　・ネットワークに50mバッファを設けて、抽出  
+  
 ![image](https://user-images.githubusercontent.com/30098187/71075086-d5a7b300-21c6-11ea-8a45-8bcfa1cf38fb.png)  
+  
+#### 4.2 Shortest Paths and Network Similarity  
+・shortest-pathsはダイクストラ法を用いて計算する?  
+・Distinct Frechet distance and Average Vertical distanceはmatlab実装があるらしい  
+  
+### 5. EXPERIMENTATION  
+#### 5.1 Experimental Setup  
+・システムの全体処理  
+  
+![image](https://user-images.githubusercontent.com/30098187/71076130-8bbfcc80-21c8-11ea-9eae-7655ce0cd785.png)  
+  
+・システムのパラメータ  
+  
+![image](https://user-images.githubusercontent.com/30098187/71076203-a8f49b00-21c8-11ea-8917-1aace9032957.png)  
+  
+#### 5.2 Road Network Generation Result  
+・アテネ(ギリシャ)のデータに適用した  
+　・22490 links  
+　・15389 nodes  
+　・13km x 16km  
+  
+・trajectoryの仕様  
+　・GPS interval 30s  
+　・120台分のデータ  
+  
+・ざっくりとした結果  
+  
+![image](https://user-images.githubusercontent.com/30098187/71076794-a9416600-21c9-11ea-8896-278054161c7d.png)  
+  
+#### 5.3 Quality Assessment  
+・500 pathを抽出して評価  
+  
+![image](https://user-images.githubusercontent.com/30098187/71077136-371d5100-21ca-11ea-876b-3bb594bb4daa.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/71077546-f8d46180-21ca-11ea-961c-83b35ae7d567.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/71077591-11dd1280-21cb-11ea-8e0e-06d17dbe0bf3.png)  
+  
+![image](https://user-images.githubusercontent.com/30098187/71077624-1efa0180-21cb-11ea-822e-0c52ee85d042.png)  
+  
