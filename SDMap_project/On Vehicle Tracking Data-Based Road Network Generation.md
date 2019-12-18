@@ -82,3 +82,45 @@ http://www.dieter.pfoser.org/publications/nwcreation_GIS_2012.pdf
 ・計算時に以下を格納しておく  
 　・(i) weight : link sampleに、何個のtrajectoryが含まれているか  
 　・(ii) width : maximum spatial extent of the trajectories  
+  
+![image](https://user-images.githubusercontent.com/30098187/71069657-83619480-21bc-11ea-9036-121c5e0de03e.png)  
+  
+#### 3.4 Compacting Links  
+(i) sorting existing link samples  
+　・Line 1  
+(ii) using a buffer region around link samples to determine relevant trajectory portions  
+　・Line 6  
+　・buffer regionは3.3で算出した値  
+　・direction similarityのthrは45°  
+(iii) adjusting the geometry of links based on the trajectories’ geometry  
+  
+・具体的なアルゴリズム  
+![image](https://user-images.githubusercontent.com/30098187/71072691-5a440280-21c2-11ea-81b6-9c027b244f00.png)  
+  
+・バッファリンクとmergeの例  
+![image](https://user-images.githubusercontent.com/30098187/71073021-f241ec00-21c2-11ea-8387-411c40ba3c57.png)  
+  
+#### 3.5 Post Processing  
+・ヒューリスティックな処理  
+・triangular intersections(いわゆるT字路)へ対応する。以下を導入  
+　・relative weight ρ between the weights w<sub>i</sub>, w<sub>j</sub> of two link samples l<sub>1</sub>, l<sub>2</sub>  
+　　・defined as ρ<sub>i,j</sub> = w<sub>i</sub>/w<sub>j</sub>  
+　　・目的は、l<sub>1</sub>, l<sub>2</sub>, l<sub>3</sub>があった時に、weightのバランスが悪いところを探すこと  
+　　　・i.e., ρ<sub>1,2</sub> >> ρ<sub>1,3</sub> ∧ ρ<sub>1,2</sub> >> ρ<sub>2,3</sub>  
+  
+・triangular intersectionの例  
+![image](https://user-images.githubusercontent.com/30098187/71073799-65982d80-21c4-11ea-84f8-bd2679ec19a5.png)  
+  
+・また、下記の条件を満たす link sample l<sub>k</sub> を除外する  
+　・ρ<sub>i,j</sub> > 0.7 ∧ ρ<sub>i,k</sub> > 0.7 ∧ ρ<sub>j,k</sub> < 0.6  
+  
+### 4. EVALUATION  
+・「道路がどれくらい似ているか？」で評価したい  
+・下記のstepで評価を行う  
+　・1. Tracking dataに対応する実際の地図ネットワークを抽出  
+　・2. 出発地・到着地をランダムに選択し、shortest pathを計算する  
+　・3. shortest-pathsのsimilarity計算のために、Distinct Fr`echet distance and Average Vertical distanceを計算する  
+`  
+#### 4.1 Road Network Extraction  
+・
+![image](https://user-images.githubusercontent.com/30098187/71075086-d5a7b300-21c6-11ea-8a45-8bcfa1cf38fb.png)  
