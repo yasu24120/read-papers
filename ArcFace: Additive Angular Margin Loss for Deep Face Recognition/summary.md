@@ -70,3 +70,58 @@ Face recognition用、metric learning用のloss functionのAdditive Angular Marg
   
 ![image](https://user-images.githubusercontent.com/30098187/71137973-4396bd80-224d-11ea-8316-96c7f312bf5a.png)  
   
+#### 2.2. Comparison with SphereFace and CosFace
+Numerical similarity  
+　・Sphereface : multiplicative angular margin m<sub>1</sub>  
+　・Arcface: additive angular margin m<sub>2</sub>  
+　・Cosface : additive cosine margin m<sub>3</sub>  
+  
+・logit curveは以下  
+　・考え方に変わりはない  
+  
+![image](https://user-images.githubusercontent.com/30098187/71143535-464dde80-225e-11ea-80c6-93d3ecc1de2d.png)  
+  
+・3つを合成して定式化したのは以下の通り:  
+  
+![image](https://user-images.githubusercontent.com/30098187/71143574-6a112480-225e-11ea-9c32-4b27d22dd18a.png)  
+  
+Geometric Difference  
+・境界線を可視化すると、下記のようなイメージ  
+  
+![image](https://user-images.githubusercontent.com/30098187/71143643-a9d80c00-225e-11ea-9d5e-dcb885524c84.png)  
+・m=1.35とすると、ArcFaceとSphereFaceの性能が同じになるらしい  
+  
+#### 2.3. Comparison with Other Losses
+・３つのlossを用いて比較実験をした  
+　・Intra-loss  
+　　・クラス内で距離が大きくなると、angle/arcが減少するようにする  
+  
+![image](https://user-images.githubusercontent.com/30098187/71143830-48646d00-225f-11ea-92b1-6c89c5072dd6.png)  
+  
+　・Inter-loss  
+　　・クラス間で距離が小さくなると、angle/arcが大きくなるようにする  
+  
+![image](https://user-images.githubusercontent.com/30098187/71143974-c1fc5b00-225f-11ea-913b-df6a138469f0.png)  
+  
+　・Triplet-loss  
+　　・普通のtriplet loss  
+  
+### 3. Experiments  
+#### 3.1. Implementation Details  
+Datasets  
+・下記を使用  
+  
+![image](https://user-images.githubusercontent.com/30098187/71144073-1b648a00-2260-11ea-8ca5-8bf07846a56c.png)  
+  
+Experimental Settings  
+・ResNet50 / ResNet100を使用  
+・最後のlast convolutional layerの後に、以下をひっつける  
+　・ BN-Dropout-FC-BN  
+　・ 512-D embedding  
+・scale s : 64  
+・angular margin m : 0.5  
+・MXNetで実装  
+・batch size 512  
+・その他もろもろのパラメータは本文参照  
+  
+#### 3.2. Ablation Study on Losses  
