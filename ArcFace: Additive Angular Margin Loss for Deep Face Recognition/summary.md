@@ -64,5 +64,9 @@ Face recognition用、metric learning用のloss functionのAdditive Angular Marg
   
 ・angular margin penalty m を x<sub>i</sub> と W<sub>yi</sub>に加える  
   
-![image](https://user-images.githubusercontent.com/30098187/71137882-f4e92380-224c-11ea-989b-7ce17b57d4b4.png)  
+![image](https://user-images.githubusercontent.com/30098187/71137919-177b3c80-224d-11ea-8dc7-fe856e3c1820.png)    
+  
+・softmaxとArcfaceのembeddingした空間を可視化したものは以下:  
+  
+![image](https://user-images.githubusercontent.com/30098187/71137973-4396bd80-224d-11ea-8316-96c7f312bf5a.png)  
   
