@@ -125,3 +125,14 @@ Experimental Settings
 ・その他もろもろのパラメータは本文参照  
   
 #### 3.2. Ablation Study on Losses  
+・他のlossと比較した実験結果  
+  
+![image](https://user-images.githubusercontent.com/30098187/71144705-5b2c7100-2262-11ea-90ff-8ffc2daa436e.png)  
+  
+・ArcFaceにIntra-loss, Inter-loss, Triplet-lossを入れても、パフォーマンスは変わらなかったらしい  
+　・ArcFaceで、既に上記３つの空間上へのマッピングが、含まれているのではないかと主張  
+  
+・lossの、statisticsは以下:  
+  
+![image](https://user-images.githubusercontent.com/30098187/71144982-413f5e00-2263-11ea-8f09-471672c27664.png)  
+・値が大きい方が良い  
