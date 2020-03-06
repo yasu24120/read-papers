@@ -27,3 +27,5 @@ ATMCの提案
 ・Quantization　：　計算時のビットサイズを低減する e.g. from 32 bits to 8 bits or less  
   
 #### 1.1  Adversarial Robustness: Connecting to Model Compression?  
+・ロバスト性(adversarial attackに対する強さ)はいつも議論になっているらしい  
+・
