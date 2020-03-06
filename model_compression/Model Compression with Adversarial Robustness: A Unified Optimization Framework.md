@@ -11,7 +11,9 @@ ATMCは以下を包括する、効率的なアルゴリズム
 ・Pruning  
 ・factorization  
 ・quantization  
-     
+  
+注:ロバスト性をキープしたまま、compressionをかけるので、ロバスト性を高めることは主軸でない  
+  
 ## Contribution
 ATMCの提案  
   
@@ -115,6 +117,10 @@ x<sub>out  = Wx<sub>in</sub>, W ∈ R<sup>m×n</sup>, m ≥ n
   
 ### 3 Experiments  
 #### 3.1 Experimental setup  
-・Datasets and b
+・Datasets and benchmark models
 ![image](https://user-images.githubusercontent.com/30098187/76063633-77bb8800-5fcb-11ea-8f97-134166ce7a36.png)  
-  
+    
+・Evaluation metrics  
+　・良性と敵性データに対するaccuracy  
+　・model compression ratio  
+　・
