@@ -67,3 +67,54 @@ i.e. (x,y)が与えられた時に、(1)を最小化したい(ノイズが加わ
 #### 2.2 Integrating Pruning, Factorization and Quantization for the ATMC Constraint  
 ・pruning / factorization / quantizationを全部導入することを考える  
   
+・CNNからDLのモデルを下記とする:  
+x<sub>out  = Wx<sub>in</sub>, W ∈ R<sup>m×n</sup>, m ≥ n  
+  
+・basic pruning : Wを0にする  
+・factorization : W = W<sub>1</sub> W<sub>2</sub> にする  
+  
+・この研究  
+![image](https://user-images.githubusercontent.com/30098187/76048370-f2bf7700-5fa8-11ea-9a45-1c38a3d3dac0.png)  
+・k :　ハイパーパラメータ  
+・||・||<sub>o</sub> : augment matrix内の、non-zeroの個数  
+  
+・factorization  
+・Wをsparseにする  
+　・Cはsparse error  
+　・U ∈ R<sup>m×m</sup> (初期値)  
+　・V ∈ R<sup>m×n</sup> (初期値)  
+  
+・pruning  
+・channel pruningはWのいくつかの行を0にする  
+　・簡単化のため、今回はl<sub>0</sub>normを導入する  
+  
+・quantization  
+・nonuniform quantization strategyを用いる  
+　・non-zeroのパラメータは、いくつかの値の集合　という考え方  
+ ![image](https://user-images.githubusercontent.com/30098187/76061126-37a5d680-5fc6-11ea-8aac-94b8219f3220.png)  
+　・|・|<sub>0</sub> : number of different values except 0 in Matrix  
+　　・例: M = [0, 1; 4; 1], |M|<sub>0</sub> = 3, |M|<sub>0</sub> = 2  
+　・この研究では、ATMCを下記の制約下の学習で集合を得ようとしている  
+![image](https://user-images.githubusercontent.com/30098187/76061763-94ee5780-5fc7-11ea-9255-4b99352e3b27.png)  
+　・b : number of representation bits  
+  
+#### 2.3 ATMC:Formulation  
+・θを(re-parameterized)weightとする。Lはlayers  
+![image](https://user-images.githubusercontent.com/30098187/76062017-1e058e80-5fc8-11ea-9b85-87344aa37486.png)
+  
+・目的関数と制約  
+![image](https://user-images.githubusercontent.com/30098187/76062093-51481d80-5fc8-11ea-944d-9812ce5091a6.png)  
+・kとbはハイパーパラメータ  
+　・k: θのスパース具合をコントロール  
+　・b: quantization bit をコントロール  
+  
+#### 2.4 Optimizaiton  
+・ADMM optimization frameworkを使用  
+・アルゴリズム：　多分ソースコードのほうがわかりやすい  
+![image](https://user-images.githubusercontent.com/30098187/76063113-67ef7400-5fca-11ea-875c-19a7219ca390.png)  
+  
+### 3 Experiments  
+#### 3.1 Experimental setup  
+・Datasets and b
+![image](https://user-images.githubusercontent.com/30098187/76063633-77bb8800-5fcb-11ea-8f97-134166ce7a36.png)  
+  
