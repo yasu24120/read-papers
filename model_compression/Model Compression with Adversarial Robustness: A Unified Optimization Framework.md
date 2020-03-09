@@ -123,4 +123,39 @@ x<sub>out  = Wx<sub>in</sub>, W ∈ R<sup>m×n</sup>, m ≥ n
 ・Evaluation metrics  
 　・良性と敵性データに対するaccuracy  
 　・model compression ratio  
-　・
+  
+・ATMC Hyper Parameters  
+　・b=32 (32bit) full precision  
+　・b=8 (8bit) quantization  
+　・その後、kを調整した  
+  
+・Train settings  
+　・PGD attacksを敵性データ作成に使用  
+　　・perturbation magnitude ∆  
+　　　・MNIST 76  
+　　　・他 4  
+　　・PGD attack iteration numbers n 16 for MNIST, 7 for other  
+  
+・Adversarial attack settings  
+　・PGD attack, FGSM attack, WRM attack　で評価  
+  
+#### 3.2 Comparison to Pure Compression, Pure Defense, and Their Mixtures  
+下記で比較  
+・Non-Adversarial Pruning (NAP)  
+　・CNNをpruning(勾配が最大のもののweightのみ保持し、その他をzeroにする。その後、non-zero weightsをfine-tuning)  
+　・no defence  
+・Dense Adversarial Training (DA)  
+　・adversarial trainingをCNNに実施  
+　・no compression  
+・Adversarial Pruning (AP)  
+　・DA →　NAPを実施  
+・Adversarial l<sub>0</sub> Pruning (Al<sub>0</sub>)  
+　・AP → l<sub>0</sub> projected gradient descentを実施  
+・Adversarial Low-Rank Decomposition (ALR)  
+　・APと基本的には一緒だが、pruningの代わりに low rank factorizationを実施  
+・ATMC (8 bits, 32 bits)  
+　・kは実験的に求めたっぽい  
+   
+ ![image](https://user-images.githubusercontent.com/30098187/76182816-afb00e80-6209-11ea-8a84-abfdb07c520d.png)  
+   
+ 
