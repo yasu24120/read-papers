@@ -158,4 +158,13 @@ x<sub>out  = Wx<sub>in</sub>, W ∈ R<sup>m×n</sup>, m ≥ n
    
  ![image](https://user-images.githubusercontent.com/30098187/76182816-afb00e80-6209-11ea-8a84-abfdb07c520d.png)  
    
- 
+・結果からわかること  
+　・ナイーブなcompressionだと、敵性データにすごく弱くなる  
+　・low model size (high compression)だと、ATMCが一番良い  
+　・compression後でも、DAに近い値を叩き出すことが可能  
+　・ATMC-8bitでも割と良い性能が出る  
+
+・色々なattackに対する性能  
+  
+![image](https://user-images.githubusercontent.com/30098187/76200369-dafc2300-6234-11ea-9c06-f31f9a930b83.png)  
+  
