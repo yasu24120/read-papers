@@ -86,9 +86,20 @@ LITの提案。
 ・結果  
 ![image](https://user-images.githubusercontent.com/30098187/76283427-e9524980-62dd-11ea-804b-2884c28b612a.png)  
 　・prune % が高ければ、圧縮されている  
+　・個別の結果については、論文内を参照  
   
 ・GANの結果  
 ![image](https://user-images.githubusercontent.com/30098187/76283948-4c90ab80-62df-11ea-85d0-05d9ee2f7b03.png)  
 ・β = 0　でstarGANをcompress  
 　・starGAN : 18 convolutional layer, each layer 12 layers (residual layer)  
 　　・6 residual blocks -> 2 residual blocksにcompressしたらしい  
+  
+#### 4.2. LIT is Complementary to Pruning  
+・LIT でtrainしたnetworkをpruningした。普通のpruningよりも性能がよかった  
+![image](https://user-images.githubusercontent.com/30098187/76287544-173c8b80-62e8-11ea-9c82-569b6f732fe8.png)  
+  
+#### 4.3. Impact of Training Techniques
+・LITの手法をいくつかに分解してみて、実験した。LITが一番良かった  
+![image](https://user-images.githubusercontent.com/30098187/76287681-5b2f9080-62e8-11ea-82ef-2846abc8a5b7.png)  
+  
+#### 4.4. Sensitivity Analysis of Hyperparameters  
