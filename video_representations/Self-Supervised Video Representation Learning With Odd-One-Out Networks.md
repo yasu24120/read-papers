@@ -1,3 +1,27 @@
 # Self-Supervised Video Representation Learning With Odd-One-Out Networks
 https://www.zpascal.net/cvpr2017/Fernando_Self-Supervised_Video_Representation_CVPR_2017_paper.pdf  
   
+## 概要  
+CNNのpre-training technique。self-supervised。  
+時系列を混ぜたビデオクリップと、時系列順に画像が並んだビデオクリップを区別させるタスクを解く  
+UCF101データセットの行動分類タスクで、この手法でpre-trainしたネットワークを使うと、精度が10%向上したらしい  
+  
+![image](https://user-images.githubusercontent.com/30098187/76594597-ed2fd700-653c-11ea-8234-171c04f0040e.png)  
+  
+## Contribution  
+手法の提案  
+
+## 本分メモ  
+### 1. Intoduction  
+・Training example は N + 1 elements (ビデオクリップor画像)  
+　・N are similar or related (e.g., correctly ordered set of frames coming from a video)  
+　・one is different or odd (e.g., wrongly ordered set of frames from a video)  
+ ・N+1 multi-class label classification  
+  
+### 3. Odd-one-out learning  
+・Task  
+　・N+1 multi-class label classificationを解く  
+　・順番を入れ替えるやつは、ランダムに決定する  
+　・関数は下記  
+![image](https://user-images.githubusercontent.com/30098187/76596439-84972900-6541-11ea-8e05-014cf6d9885c.png)  
+  
