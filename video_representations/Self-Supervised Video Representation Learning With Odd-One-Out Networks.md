@@ -25,3 +25,16 @@ UCF101データセットの行動分類タスクで、この手法でpre-train�
 　・関数は下記  
 ![image](https://user-images.githubusercontent.com/30098187/76596439-84972900-6541-11ea-8e05-014cf6d9885c.png)  
   
+・Model  
+　・Fig.1 のとおり、video clip encoder の上に5 x conv layer, fc layer～  
+　・Fusion layerは以下のふたつ:  
+　　・concatenation model : (N + 1) × d dimensional vector  
+　　・sum of difference model  
+![image](https://user-images.githubusercontent.com/30098187/76597781-99c18700-6544-11ea-8978-dfc2dad42a45.png)  
+・o を足し合わせたoutput of fusion layer?  
+・v<sub>i</sub> : activation vector of the i-th branch  
+  
+### 4. Learning video representations with O3N  
+サンプリング方法をどうするか？  
+・Consecutive sampling  
+　・
