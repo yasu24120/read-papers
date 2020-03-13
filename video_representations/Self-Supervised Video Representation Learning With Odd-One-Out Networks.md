@@ -33,8 +33,14 @@ UCF101データセットの行動分類タスクで、この手法でpre-train�
 ![image](https://user-images.githubusercontent.com/30098187/76597781-99c18700-6544-11ea-8978-dfc2dad42a45.png)  
 ・o を足し合わせたoutput of fusion layer?  
 ・v<sub>i</sub> : activation vector of the i-th branch  
+![image](https://user-images.githubusercontent.com/30098187/76602099-9aaae680-654d-11ea-9cd6-90817133bb9c.png)  
   
 ### 4. Learning video representations with O3N  
-サンプリング方法をどうするか？  
-・Consecutive sampling  
-　・
+・サンプリング方法をどうするか？３種類考えた  
+![image](https://user-images.githubusercontent.com/30098187/76602284-f1182500-654d-11ea-83b1-bbd1113e71a8.png)  
+  
+### 5. Video frame encoding  
+・3D convolution, recurrent encoders, rank-pooling encoders, concatenate framesなどあるが、どれにでも使える  
+  
+  
+・基本的に、odd-one-outで学習させたネットワークでfine tuningすると、タスクの精度があがるらしい  
