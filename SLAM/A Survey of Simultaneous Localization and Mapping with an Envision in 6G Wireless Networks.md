@@ -47,4 +47,11 @@ Lidar SLAM, Visual SLAMとそのfusionについて調査
   ・PointNetVLAD: end-to-end training と inferenceを可能にした。マッチする特徴量を検索する  
 　・VoxelNet: feature extraction + bounding box predictionをひとつのネットワークで行う  
 　・BirdNet: 〃  
-　・LMNet: 
+　・LMNet: CNNを使って、object detection + objectness map + bounding box  
+　・PIXOR : pixel wise NN  
+　・YoLo 3D: YoLoのpoint cloud適用版  
+　・Point CNN: X-transformation(element-wise product and sum operations of typical convolution operator)をする  
+　・MV3D : lidar+RGB　から、3D bounding boxを出力  
+　・PU-GAN: GAN使って特徴抽出  
+・Recognition & Segmentation  
+　・
