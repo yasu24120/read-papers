@@ -44,3 +44,6 @@ SLAMのTutorial論文
   
 ・'graph-based' や 'network-based' と呼ばれるらしい  
   
+・poses of the robot are modeled by
+nodes in a graph and labeled with their position in the
+environment 
