@@ -44,6 +44,8 @@ SLAMのTutorial論文
   
 ・'graph-based' や 'network-based' と呼ばれるらしい  
   
-・poses of the robot are modeled by
-nodes in a graph and labeled with their position in the
-environment 
+### III. RELATED WORK  
+・カルマンフィルタとの組み合わせや、フレームワーク、OSSが紹介されている  
+  
+### IV. GRAPH BASED SLAM
+・  
