@@ -103,3 +103,24 @@ LITの提案。
 ![image](https://user-images.githubusercontent.com/30098187/76287681-5b2f9080-62e8-11ea-82ef-2846abc8a5b7.png)  
   
 #### 4.4. Sensitivity Analysis of Hyperparameters  
+・IR penalty, hyperparameter analysis, and mixed precisionに対して分析をした  
+  
+・Intermediate loss penalty  
+　・LITをResnet-110のteacherから、Resnet-20のstudentに適用  
+　・L1, L2, smoothed L1 loss  
+　・結果：Smoothed L1だけ悪くなった  
+![image](https://user-images.githubusercontent.com/30098187/81882178-0866a380-95cd-11ea-93d0-020a71b7e05f.png)  
+  
+・α and β  
+　・α：accuracyが変わる、最適な値はアーキテクチャによる  
+　・β: 最適な値はアーキテクチャによって変わる。傾向は同じように見える  
+ ![image](https://user-images.githubusercontent.com/30098187/81882445-bd995b80-95cd-11ea-8737-b534dee9a2ef.png)  
+  
+・LIT works with mixed precision  
+　・ ResNet と ResNeXt (teacher： 110　layers、 student ： 20 layers)に対してmixed precisionを用いてLITを適用  
+　　・もともとはfp32  
+　　・mixed presitionはfp16 (ソースコードを読む限りでは)  
+　・ResNet-20 ：　93.20 ± 0.04% （fp32）、 93.17 ± 0.07% (fp16)  
+　・ResNeXt-20 ：　94.63 ± 0.07% （fp32）、 94.57 ± 0.10% (fp16)  
+   
+ #### 
